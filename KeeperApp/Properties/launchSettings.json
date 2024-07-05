@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "KeeperApp (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "KeeperApp (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

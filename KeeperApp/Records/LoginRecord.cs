@@ -1,92 +1,82 @@
-﻿using System;
+﻿using KeeperApp.Security;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Windows.Graphics.Display;
 
 namespace KeeperApp.Records
 {
-    public class LoginRecord : Record, IParsable<LoginRecord>
+    public class LoginRecord : Record
     {
         private string login;
         private string password;
         private string url;
         private string notes;
+        private string iconPath;
 
+        [EncryptProperty]
         public string Login 
-        { 
-            get => Decrypt<string>(login);
+        {
+            get => login;
             set
             {
-                login = Encrypt(value);
+                login = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(Subtitle));
             }
         }
 
+        [EncryptProperty]
         public string Password
         {
-            get => Decrypt<string>(password);
+            get => password;
             set
             {
-                password = Encrypt(value);
+                password = value;
                 OnPropertyChanged();
             }
         }
 
+        [EncryptProperty]
         public string Url
         {
-            get => Decrypt<string>(url);
+            get => url;
             set
             {
-                url = Encrypt(value);
+                url = value;
                 OnPropertyChanged();
             }
         }
 
+        [EncryptProperty]
         public string Notes
         {
-            get => Decrypt<string>(notes);
+            get => notes;
             set
             {
-                notes = Encrypt(value);
+                notes = value;
                 OnPropertyChanged();
             }
         }
 
-        public static LoginRecord Parse(string s, IFormatProvider provider)
-        {
-            return JsonSerializer.Deserialize<LoginRecord>(s);
-        }
+        public override string Subtitle => Login;
 
-        public static LoginRecord Parse(string s)
-        {
-            return Parse(s, null);
-        }
-
-        public static bool TryParse([NotNullWhen(true)] string s, IFormatProvider provider, [MaybeNullWhen(false)] out LoginRecord result)
-        {
-            bool returnValue;
-            try
+        [EncryptProperty]
+        public override string IconPath 
+        { 
+            get => string.IsNullOrWhiteSpace(iconPath) ? "/Assets/record.png" : iconPath;
+            set
             {
-                result = Parse(s, provider);
-                returnValue = true;
+                iconPath = value;
+                OnPropertyChanged();
             }
-            catch
-            {
-                result = null;
-                returnValue = false;
-            }
-
-            return returnValue;
-        }
-
-        public override string ToString()
-        {
-            return JsonSerializer.Serialize(this);
         }
     }
 }

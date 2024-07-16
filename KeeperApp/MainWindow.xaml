@@ -6,9 +6,45 @@
     xmlns:local="using:KeeperApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:records="using:KeeperApp.Records"
+    xmlns:interaction="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:customBehaviors="using:KeeperApp.Behaviors"
     mc:Ignorable="d">
-
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <NavigationView PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" IsPaneOpen="False" Grid.Row="1" IsSettingsVisible="False" OpenPaneLength="250">
+            <NavigationView.MenuItems>
+                <NavigationViewItemHeader Content="{x:Bind ViewModel.Username}"/>
+                <NavigationViewItem Icon="BlockContact" Content="Sign out">
+                    <interaction:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.SignOutCommand}"/>
+                        </core:EventTriggerBehavior>
+                    </interaction:Interaction.Behaviors>
+                </NavigationViewItem>
+                <NavigationViewItemSeparator/>
+                <NavigationViewItem Content="Home" Icon="Home" Tag="KeeperApp.Views.HomePage" IsSelected="True" SelectsOnInvoked="True"/>
+            </NavigationView.MenuItems>
+            <NavigationView.PaneFooter>
+                <NavigationViewItem Content="Exit" Icon="Cancel">
+                    <interaction:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.ExitCommand}"/>
+                        </core:EventTriggerBehavior>
+                    </interaction:Interaction.Behaviors>
+                </NavigationViewItem>
+            </NavigationView.PaneFooter>
+            <Frame x:Name="ContentFrame"/>
+            <interaction:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="ItemInvoked">
+                    <customBehaviors:NavigateAction Frame="{x:Bind ContentFrame}"/>
+                </core:EventTriggerBehavior>
+            </interaction:Interaction.Behaviors>
+        </NavigationView>
+    </Grid>
 </Window>

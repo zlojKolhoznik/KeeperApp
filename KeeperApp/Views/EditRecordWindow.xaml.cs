@@ -1,6 +1,5 @@
 using KeeperApp.Records;
 using KeeperApp.ViewModels;
-using KeeperApp.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -20,20 +19,19 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace KeeperApp
+namespace KeeperApp.Views
 {
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainWindow : Window
+    public sealed partial class EditRecordWindow : ContentDialog
     {
-        public MainViewModel ViewModel { get; }
-
-        public MainWindow()
+        public EditRecordWindow(object record)
         {
             this.InitializeComponent();
-            ViewModel = App.Current.Services.GetService<MainViewModel>();
-            ContentFrame.Navigate(typeof(HomePage));
+            var vm = App.Current.Services.GetService<EditRecordViewModel>();
+            vm.Record = (LoginRecord)record;
+            DataContext = vm;
         }
     }
 }

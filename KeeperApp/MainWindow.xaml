@@ -17,7 +17,7 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <NavigationView PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" IsPaneOpen="False" Grid.Row="1" IsSettingsVisible="False" OpenPaneLength="250">
+        <NavigationView PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" IsPaneOpen="False" Grid.Row="1" IsSettingsVisible="True" OpenPaneLength="250">
             <NavigationView.MenuItems>
                 <NavigationViewItemHeader Content="{x:Bind ViewModel.Username}"/>
                 <NavigationViewItem Icon="BlockContact" Content="Sign out">
@@ -42,7 +42,7 @@
             <Frame x:Name="ContentFrame"/>
             <interaction:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="ItemInvoked">
-                    <customBehaviors:NavigateAction Frame="{x:Bind ContentFrame}"/>
+                    <customBehaviors:MainWindowNavigateAction Frame="{x:Bind ContentFrame}"/>
                 </core:EventTriggerBehavior>
             </interaction:Interaction.Behaviors>
         </NavigationView>

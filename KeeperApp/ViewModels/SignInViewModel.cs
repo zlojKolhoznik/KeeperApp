@@ -23,6 +23,8 @@ namespace KeeperApp.ViewModels
             this.signInManager = signInManager;
         }
 
+        public bool IsWindowsHelloConnected => !string.IsNullOrWhiteSpace(WindowsHelloHelper.GetConnectedAccount());
+
         public string Username
         {
             get => username;
@@ -67,6 +69,8 @@ namespace KeeperApp.ViewModels
 
         public RelayCommand RegisterCommand => new(Register);
 
+        public RelayCommand WindowsHelloSignInCommand => new(WindowsHelloSignIn);
+
         private void SignIn()
         {
             if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
@@ -96,6 +100,11 @@ namespace KeeperApp.ViewModels
             {
                 ErrorMessage = "Passwords are not the same";
             }
+        }
+
+        private void WindowsHelloSignIn()
+        {
+            signInManager.SignInWithWindowsHello();
         }
     }
 }

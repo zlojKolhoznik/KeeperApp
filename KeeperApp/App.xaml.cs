@@ -75,6 +75,7 @@ namespace KeeperApp
             services.AddTransient<HomeViewModel>();
             services.AddTransient<AddRecordViewModel>();
             services.AddTransient<EditRecordViewModel>();
+            services.AddTransient<SettingsViewModel>();
             services.AddTransient<SignInViewModel>();
             services.AddSingleton<SignInManager>();
             services.AddDbContext<KeeperDbContext>();

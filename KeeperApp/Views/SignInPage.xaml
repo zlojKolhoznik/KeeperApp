@@ -8,8 +8,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interaction="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
     <StackPanel HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Background="{ThemeResource CardBackgroundFillColorDefault}"
@@ -24,7 +28,13 @@
         <TextBox Text="{Binding Username, Mode=TwoWay}" PlaceholderText="Username" MinWidth="200" MaxWidth="300" Margin="30,10"/>
         <PasswordBox Password="{Binding Password, Mode=TwoWay}" PlaceholderText="Password" MinWidth="200" MaxWidth="300" Margin="30,10"/>
         <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontSize="12" Margin="30,10"/>
-        <Button Content="Sign in" HorizontalAlignment="Center" Margin="0,5" Command="{Binding SignInCommand}"/>
+        <StackPanel Orientation="Horizontal" Margin="0,10" HorizontalAlignment="Center">
+            <Button Content="Sign in" HorizontalAlignment="Center" Margin="10,5" Command="{Binding SignInCommand}"/>
+            <Button Margin="10,5" Background="Transparent" BorderBrush="Transparent" Visibility="{Binding IsWindowsHelloConnected, Converter={StaticResource BoolToVisibilityConverter}}"
+                    Command="{Binding WindowsHelloSignInCommand}">
+                <Image Source="/Assets/WindowsHello.png" Height="18" Margin="5,0"/>
+            </Button>
+        </StackPanel>
         <HyperlinkButton HorizontalAlignment="Center">
             <TextBlock Text="Don't have an account? Register!"
                        FontSize="14"

@@ -124,16 +124,49 @@ namespace KeeperApp.Authentication
             return success;
         }
 
-        public void SignOut() 
-        {
-            CurrentUserName = null;
-        }
-
         private string GetHash(string value)
         {
             using var sha256 = SHA256.Create();
             byte[] hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(value));
             return Convert.ToBase64String(hash);
+        }
+
+        public void SignOut() 
+        {
+            CurrentUserName = null;
+        }
+
+        public async void SignInWithWindowsHello()
+        {
+            if (await WindowsHelloHelper.IsWindowsHelloAvailableAsync())
+            {
+                CurrentUserName = await WindowsHelloHelper.SignInAsync();
+            }
+        }
+
+        public async Task<bool> RegisterWindowsHelloAsync()
+        {
+            bool result = true;
+            if (await WindowsHelloHelper.IsWindowsHelloAvailableAsync())
+            {
+                result = await WindowsHelloHelper.CreateKeyAsync(CurrentUserName);
+            }
+            return result;
+        }
+
+        public async Task<bool> UnregisterWindowsHello(bool skipConfirmation = false)
+        {
+            bool result = true;
+            if (await IsWindowsHelloRegisteredAsync())
+            {
+                result = await WindowsHelloHelper.DeleteKeyAsync(CurrentUserName, skipConfirmation);
+            }
+            return result;
+        }
+
+        public async Task<bool> IsWindowsHelloRegisteredAsync()
+        {
+            return await WindowsHelloHelper.IsRegisteredForAsync(CurrentUserName);
         }
     }
 }

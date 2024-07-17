@@ -14,13 +14,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\record.png" />
+    <Content Remove="Assets\WindowsHello.png" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="SignInWindow.xaml" />
-    <None Remove="Views\AddRecordWindow.xaml" />
-    <None Remove="Views\EditRecordWindow.xaml" />
+    <None Remove="Views\AddRecordDialog.xaml" />
+    <None Remove="Views\EditRecordDialog.xaml" />
     <None Remove="Views\HomePage.xaml" />
+    <None Remove="Views\RecordInfo.xaml" />
     <None Remove="Views\RegisterPage.xaml" />
+    <None Remove="Views\SettingsPage.xaml" />
     <None Remove="Views\SignInPage.xaml" />
   </ItemGroup>
 
@@ -36,6 +39,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
@@ -62,6 +66,15 @@
     <None Update="Assets\record.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\WindowsHello.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Views\RecordInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\RegisterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -71,10 +84,10 @@
     <Page Update="SignInWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Views\EditRecordWindow.xaml">
+    <Page Update="Views\EditRecordDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Views\AddRecordWindow.xaml">
+    <Page Update="Views\AddRecordDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

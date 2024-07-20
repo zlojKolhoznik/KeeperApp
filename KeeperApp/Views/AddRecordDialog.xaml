@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentDialog
-    x:Class="KeeperApp.Views.EditRecordWindow"
+    x:Class="KeeperApp.Views.AddRecordDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:KeeperApp.Views"
@@ -10,15 +10,15 @@
     xmlns:behaviors="using:KeeperApp.Behaviors"
     CloseButtonText="Cancel"
     PrimaryButtonText="Save"
-    PrimaryButtonCommand="{Binding SaveEditingCommang}"
+    PrimaryButtonCommand="{Binding SaveRecordCommand}"
     mc:Ignorable="d">
     <StackPanel HorizontalAlignment="Center" Width="300">
-        <TextBlock Text="Edit login" FontSize="20" Margin="0,10"/>
+        <TextBlock Text="Add a new login" FontSize="20" Margin="0,10"/>
         <TextBox Text="{Binding Title, Mode=TwoWay}" PlaceholderText="Title*" Margin="0,10"/>
         <TextBox Text="{Binding Login, Mode=TwoWay}" PlaceholderText="Login*" Margin="0,10"/>
         <PasswordBox Password="{Binding Password, Mode=TwoWay}" PlaceholderText="Password*" Margin="0,10"/>
-        <TextBox Text="{Binding Url, Mode=TwoWay}" PlaceholderText="Url" Margin="0,10"/>
-        <TextBox Text="{Binding Notes, Mode=TwoWay}" PlaceholderText="Notes" Margin="0,10"/>
+        <TextBox Text="{Binding Url, Mode=TwoWay}"  PlaceholderText="Url" Margin="0,10"/>
+        <TextBox Text="{Binding Notes, Mode=TwoWay}"  PlaceholderText="Notes" Margin="0,10"/>
     </StackPanel>
     <interaction:Interaction.Behaviors>
         <behaviors:ValidateInputBehavior/>

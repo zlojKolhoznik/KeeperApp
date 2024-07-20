@@ -32,11 +32,5 @@ namespace KeeperApp.Views
         }
 
         public HomeViewModel ViewModel { get; set; }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new AddRecordWindow { XamlRoot = this.XamlRoot };
-            window.ShowAsync();
-        }
     }
 }

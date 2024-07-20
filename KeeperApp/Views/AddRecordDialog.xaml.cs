@@ -23,9 +23,9 @@ namespace KeeperApp.Views
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AddRecordWindow : ContentDialog
+    public sealed partial class AddRecordDialog : ContentDialog
     {
-        public AddRecordWindow()
+        public AddRecordDialog()
         {
             DataContext = App.Current.Services.GetService<AddRecordViewModel>();
             this.InitializeComponent();

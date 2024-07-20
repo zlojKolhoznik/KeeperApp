@@ -16,14 +16,18 @@
 
     <Page.Resources>
         <proxy:BindingProxy Data="{x:Bind ViewModel}" x:Key="ViewModelProxy"/>
+        <proxy:BindingProxy Data="{x:Bind DetailsContainer}" x:Key="DetailsContainerProxy"/>
     </Page.Resources>
-
-    <Grid Padding="20">
+    <Grid Padding="20" x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Padding="10" Width="auto"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Padding="10" Width="auto" Grid.ColumnSpan="2"
                     Orientation="Horizontal" VerticalAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}">
             <TextBlock Text="Keeper Vault" FontSize="24"/>
             <Button Margin="15,0,0,0" Padding="10" Background="{ThemeResource SystemColorControlAccentColor}" CornerRadius="20">
@@ -33,13 +37,13 @@
                 </StackPanel>
                 <interaction:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <behaviors:InvokeContentDialogAction ContentDialog="local:AddRecordWindow"/>
+                        <behaviors:InvokeContentDialogAction ContentDialog="local:AddRecordDialog"/>
                     </core:EventTriggerBehavior>
                 </interaction:Interaction.Behaviors>
             </Button>
         </StackPanel>
         <ScrollViewer Grid.Row="1" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
-            <TreeView ItemsSource="{x:Bind ViewModel.Records, Mode=OneWay}" Margin="0,20,0,0">
+            <TreeView ItemsSource="{x:Bind ViewModel.Records, Mode=OneWay}" Margin="0,20,0,0" x:Name="RecordsView">
                 <TreeView.ItemTemplate>
                     <DataTemplate>
                         <RelativePanel>
@@ -54,7 +58,7 @@
                                     <SymbolIcon Symbol="Edit"/>
                                     <interaction:Interaction.Behaviors>
                                         <core:EventTriggerBehavior EventName="Click">
-                                            <behaviors:InvokeContentDialogAction ContentDialog="local:EditRecordWindow" Argument="{Binding}"/>
+                                            <behaviors:ShowRecordDetailsAction Container="{Binding Data, Source={StaticResource DetailsContainerProxy}}" Path="OriginalSource.DataContext" EnableEditing="True"/>
                                         </core:EventTriggerBehavior>
                                     </interaction:Interaction.Behaviors>
                                 </Button>
@@ -92,7 +96,13 @@
                         </RelativePanel>
                     </DataTemplate>
                 </TreeView.ItemTemplate>
+                <interaction:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="ItemInvoked">
+                        <behaviors:ShowRecordDetailsAction Container="{Binding ElementName=DetailsContainer}" Path="InvokedItem" EnableEditing="False"/>
+                    </core:EventTriggerBehavior>
+                </interaction:Interaction.Behaviors>
             </TreeView>
         </ScrollViewer>
+        <StackPanel Grid.Column="1" Grid.Row="1" x:Name="DetailsContainer"/>
     </Grid>
 </Page>

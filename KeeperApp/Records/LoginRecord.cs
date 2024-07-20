@@ -1,4 +1,6 @@
-﻿using KeeperApp.Security;
+﻿using KeeperApp.Records.ViewAttributes;
+using KeeperApp.Security;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -33,7 +35,7 @@ namespace KeeperApp.Records
             }
         }
 
-        [EncryptProperty]
+        [EncryptProperty, ViewContol(typeof(PasswordBox), "PasswordProperty")]
         public string Password
         {
             get => password;
@@ -66,9 +68,10 @@ namespace KeeperApp.Records
             }
         }
 
+        [Hidden]
         public override string Subtitle => Login;
 
-        [EncryptProperty]
+        [EncryptProperty, Hidden]
         public override string IconPath 
         { 
             get => string.IsNullOrWhiteSpace(iconPath) ? "/Assets/record.png" : iconPath;

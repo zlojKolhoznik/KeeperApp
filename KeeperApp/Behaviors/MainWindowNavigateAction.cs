@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using KeeperApp.Views;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Xaml.Interactivity;
 using System;
@@ -9,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace KeeperApp.Behaviors
 {
-    public class NavigateAction : DependencyObject, IAction
+    public class MainWindowNavigateAction : DependencyObject, IAction
     {
         public static DependencyProperty FrameProperty = DependencyProperty.Register("Frame",
             typeof(Frame), 
-            typeof(NavigateAction),
+            typeof(MainWindowNavigateAction),
             new PropertyMetadata(null));
 
         public Frame Frame
@@ -26,7 +27,11 @@ namespace KeeperApp.Behaviors
         {
             NavigationViewItemInvokedEventArgs args = (NavigationViewItemInvokedEventArgs)parameter;
             var result = false;
-            if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag != null)
+            if (args.IsSettingsInvoked)
+            {
+                Frame.Navigate(typeof(SettingsPage));
+            }
+            else if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag != null)
             {
                 Type pageToNavigate = Type.GetType(args.InvokedItemContainer.Tag.ToString());
                 result = Frame.Navigate(pageToNavigate);

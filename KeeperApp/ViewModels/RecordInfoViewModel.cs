@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace KeeperApp.ViewModels
 {
@@ -15,11 +16,16 @@ namespace KeeperApp.ViewModels
         private Record record;
         private bool isInEditingMode;
         private readonly KeeperDbContext dbContext;
+        private readonly ResourceLoader resourceLoader;
 
         public RecordInfoViewModel(KeeperDbContext dbContext)
         {
             this.dbContext = dbContext;
+            resourceLoader = new ResourceLoader();
         }
+
+        public string Save => resourceLoader.GetString("Save");
+        public string Cancel => resourceLoader.GetString("Cancel");
 
         public Record Record
         {

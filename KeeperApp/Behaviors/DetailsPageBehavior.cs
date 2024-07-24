@@ -1,24 +1,28 @@
 ﻿using KeeperApp.Records;
 using KeeperApp.Records.ViewAttributes;
-using KeeperApp.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.Xaml.Interactivity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.Resources;
 
 namespace KeeperApp.Behaviors
 {
     internal class DetailsPageBehavior : Behavior<StackPanel>
     {
+        private readonly ResourceLoader resourceLoader;
+
         public static DependencyProperty RecordProperty = DependencyProperty.Register("Record", typeof(Record), typeof(DetailsPageBehavior), new PropertyMetadata(null));
         public static DependencyProperty IsInEditingModeProperty = DependencyProperty.Register("IsInEditingMode", typeof(bool), typeof(DetailsPageBehavior), new PropertyMetadata(false));
+
+        public DetailsPageBehavior()
+        {
+            resourceLoader = new ResourceLoader();
+        }
 
         public Record Record
         {
@@ -71,7 +75,7 @@ namespace KeeperApp.Behaviors
             }
             else
             {
-                AssociatedObject.Children.Add(new TextBlock { Text = "No record selected" });
+                AssociatedObject.Children.Add(new TextBlock { Text = resourceLoader.GetString("NoRecordSelected") });
             }
         }
 
@@ -81,7 +85,7 @@ namespace KeeperApp.Behaviors
             Type controlType = viewContolAttribute?.ControlType ?? typeof(TextBox);
             Control control = (Control)Activator.CreateInstance(controlType);
             PropertyInfo headerProperty = controlType.GetProperty("Header");
-            headerProperty?.SetValue(control, source.Name);
+            headerProperty?.SetValue(control, resourceLoader.GetString(source.Name));
             PropertyInfo readOnlyProperty = controlType.GetProperty("IsReadOnly");
             if (readOnlyProperty is not null)
             {
@@ -114,7 +118,7 @@ namespace KeeperApp.Behaviors
                     textToCopy.SetText(pb.Password);
                     textToCopy.RequestedOperation = DataPackageOperation.Copy;
                     Clipboard.SetContent(textToCopy);
-                    ShowTemporaryMessage(pb, "Password successfully copied", 2);
+                    ShowTemporaryMessage(pb, resourceLoader.GetString("PasswordCopied"), 2);
                 }
             };
         }

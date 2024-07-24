@@ -17,10 +17,10 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <NavigationView PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" IsPaneOpen="False" Grid.Row="1" IsSettingsVisible="True" OpenPaneLength="250">
+        <NavigationView x:Name="Navbar" PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" IsPaneOpen="False" Grid.Row="1" IsSettingsVisible="True" OpenPaneLength="250">
             <NavigationView.MenuItems>
                 <NavigationViewItemHeader Content="{x:Bind ViewModel.Username}"/>
-                <NavigationViewItem Icon="BlockContact" Content="Sign out">
+                <NavigationViewItem Icon="BlockContact" Content="{x:Bind ViewModel.SignOut}" x:Name="SignOut">
                     <interaction:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.SignOutCommand}"/>
@@ -28,10 +28,10 @@
                     </interaction:Interaction.Behaviors>
                 </NavigationViewItem>
                 <NavigationViewItemSeparator/>
-                <NavigationViewItem Content="Home" Icon="Home" Tag="KeeperApp.Views.HomePage" IsSelected="True" SelectsOnInvoked="True"/>
+                <NavigationViewItem x:Name="Home" Content="{x:Bind ViewModel.Home}" Icon="Home" Tag="KeeperApp.Views.HomePage" IsSelected="True" SelectsOnInvoked="True"/>
             </NavigationView.MenuItems>
             <NavigationView.PaneFooter>
-                <NavigationViewItem Content="Exit" Icon="Cancel">
+                <NavigationViewItem x:Name="Exit" Content="{x:Bind ViewModel.Exit}" Icon="Cancel">
                     <interaction:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.ExitCommand}"/>
@@ -44,6 +44,7 @@
                 <core:EventTriggerBehavior EventName="ItemInvoked">
                     <customBehaviors:MainWindowNavigateAction Frame="{x:Bind ContentFrame}"/>
                 </core:EventTriggerBehavior>
+                <customBehaviors:MainWindowLanguageBehavior Navbar="{x:Bind Navbar, Mode=OneWay}"/>
             </interaction:Interaction.Behaviors>
         </NavigationView>
     </Grid>

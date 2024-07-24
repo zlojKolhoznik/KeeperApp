@@ -18,17 +18,17 @@
             BorderThickness="1"
             BorderBrush="{ThemeResource CardStrokeColorDefaultSolidBrush}"
             Padding="10">
-        <TextBlock Text="Register"
+        <TextBlock Text="{Binding RegisterNoun}"
                FontSize="24"
                HorizontalTextAlignment="Center"
                Margin="0,0,0,25"/>
-        <TextBox Text="{Binding Username, Mode=TwoWay}" PlaceholderText="Username" MinWidth="200" MaxWidth="300" Margin="30,10"/>
-        <PasswordBox Password="{Binding Password, Mode=TwoWay}" PlaceholderText="Password" MinWidth="200" MaxWidth="300" Margin="30,10"/>
-        <PasswordBox Password="{Binding ConfirmPassword, Mode=TwoWay}" PlaceholderText="Confirm password" MinWidth="200" MaxWidth="300" Margin="30,10"/>
+        <TextBox Text="{Binding Username, Mode=TwoWay}" PlaceholderText="{Binding UsernamePlaceholder}" MinWidth="200" MaxWidth="300" Margin="30,10"/>
+        <PasswordBox Password="{Binding Password, Mode=TwoWay}" PlaceholderText="{Binding PasswordPlaceholder}" MinWidth="200" MaxWidth="300" Margin="30,10"/>
+        <PasswordBox Password="{Binding ConfirmPassword, Mode=TwoWay}" PlaceholderText="{Binding ConfirmPasswordPlaceholder}" MinWidth="200" MaxWidth="300" Margin="30,10"/>
         <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontSize="12" Margin="30,10"/>
-        <Button Content="Register" HorizontalAlignment="Center" Margin="0,5" Command="{Binding RegisterCommand}"/>
+        <Button Content="{Binding RegisterVerb}" HorizontalAlignment="Center" Margin="0,5" Command="{Binding RegisterCommand}"/>
         <HyperlinkButton HorizontalAlignment="Center">
-            <TextBlock Text="Sign in with an existing account"
+            <TextBlock Text="{Binding SignInExistingAccount}"
                    FontSize="14"
                    TextDecorations="Underline"/>
             <interaction:Interaction.Behaviors>

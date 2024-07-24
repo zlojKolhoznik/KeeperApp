@@ -75,7 +75,9 @@ namespace KeeperApp.ViewModels
                         .Where(t => t.IsSubclassOf(typeof(Record)) && !t.IsAbstract)
                         .Select(t => new ComboBoxItem { Content = resourceLoader.GetString(t.Name), Tag = t });
 
-        public string Title => "TEST"; //$"{resourceLoader.GetString("AddRecordTitle")} {resourceLoader.GetString(RecordType.Name)}";
+        public string Title => $"{resourceLoader.GetString("AddRecordTitle")} {resourceLoader.GetString(RecordType.Name)}";
+        public string Save => resourceLoader.GetString("Save");
+        public string Cancel => resourceLoader.GetString("Cancel");
 
         private async Task HandleSaveRecordCommandAsync()
         {
@@ -85,7 +87,7 @@ namespace KeeperApp.ViewModels
             }
             else
             {
-                ErrorMessage = "Please fill in all required fields";
+                ErrorMessage = resourceLoader.GetString("RequiredFieldsPrompt");
             }
         }
 
@@ -105,6 +107,7 @@ namespace KeeperApp.ViewModels
             record.OwnerUsernameHash = Sha256Hasher.GetSaltedHash(signInManager.CurrentUserName, record.Created.ToString());
             dbContext.Add(record);
             await dbContext.SaveChangesAsync();
+            WeakReferenceMessenger.Default.Send(new RecordMessage { MesasgeType = RecordMessageType.Added, Record = record });
         }
 
         public bool IsInputValid()

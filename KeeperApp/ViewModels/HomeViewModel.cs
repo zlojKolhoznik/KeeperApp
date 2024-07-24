@@ -13,6 +13,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace KeeperApp.ViewModels
 {
@@ -20,12 +21,14 @@ namespace KeeperApp.ViewModels
     {
         private readonly KeeperDbContext dbContext;
         private readonly SignInManager signInManager;
+        private readonly ResourceLoader resourceLoader;
         private ObservableCollection<Record> records;
 
         public HomeViewModel(KeeperDbContext dbContext, SignInManager signInManager)
         {
             this.dbContext = dbContext;
             this.signInManager = signInManager;
+            resourceLoader = new ResourceLoader();
             Records = new ObservableCollection<Record>(dbContext.GetRecordsForUser(signInManager.CurrentUserName).OrderByDescending(r => r.Created));
             WeakReferenceMessenger.Default.Register<HomeViewModel, RecordMessage>(this, (r, m) => r.Receive(m));
         }
@@ -41,6 +44,12 @@ namespace KeeperApp.ViewModels
         }
 
         public RelayCommand<Record> DeleteRecordCommand => new(DeleteRecord);
+
+        public string Title => resourceLoader.GetString("KeeperVault");
+        public string AddRecordButtonLabel => resourceLoader.GetString("AddRecord");
+        public string DeleteRecordPrompt => resourceLoader.GetString("DeleteRecordPrompt");
+        public string Yes => resourceLoader.GetString("Yes");
+        public string No => resourceLoader.GetString("No");
 
         public void DeleteRecord(Record record)
         {

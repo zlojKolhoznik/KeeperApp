@@ -1,5 +1,4 @@
-﻿using KeeperApp.Records;
-using KeeperApp.Records.ViewAttributes;
+﻿using KeeperApp.Records.ViewAttributes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
@@ -8,16 +7,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace KeeperApp.Behaviors
 {
     public class PopulateAddRecordInputsAction : DependencyObject, IAction
     {
+        private readonly ResourceLoader resourceLoader;
+
         public DependencyProperty RecordTypeProperty = DependencyProperty.Register("RecordType", typeof(Type), typeof(PopulateAddRecordInputsAction), new PropertyMetadata(null));
         public DependencyProperty PropertiesProperty = DependencyProperty.Register("Properties", typeof(Dictionary<string, string>), typeof(PopulateAddRecordInputsAction), new PropertyMetadata(null));
         public DependencyProperty ContainerProperty = DependencyProperty.Register("Container", typeof(Panel), typeof(PopulateAddRecordInputsAction), new PropertyMetadata(null));
+
+        public PopulateAddRecordInputsAction()
+        {
+            resourceLoader = new ResourceLoader();
+        }
 
         public Type RecordType { get; set; }
 
@@ -42,12 +47,12 @@ namespace KeeperApp.Behaviors
             foreach (var property in propertiesToDisplay)
             {
                 var viewControlAttribute = property.GetCustomAttribute<ViewControlAttribute>();
-                var control = viewControlAttribute?.ControlType ?? typeof(TextBox);
-                var controlInstance = (Control)Activator.CreateInstance(control);
-                var valueDependencyProperty = control.GetProperty(viewControlAttribute?.ValueDependencyPropertyName ?? "TextProperty");
+                var controlType = viewControlAttribute?.ControlType ?? typeof(TextBox);
+                var hintProperty = controlType.GetProperty("PlaceholderText") ?? controlType.GetProperty("Header");
+                var controlInstance = (Control)Activator.CreateInstance(controlType);
+                var valueDependencyProperty = controlType.GetProperty(viewControlAttribute?.ValueDependencyPropertyName ?? "TextProperty");
                 Properties.TryAdd(property.Name, string.Empty);
                 var bindingPath = "Properties[" + property.Name + "]";
-                var tmppath = new PropertyPath(bindingPath);
                 // Since Properties member of this class and Properties member of AddRecordViewModel class are referring to the same object, we can set binding source to this object
                 var binding = new Binding()
                 {
@@ -57,6 +62,7 @@ namespace KeeperApp.Behaviors
                 };
                 controlInstance.SetBinding((DependencyProperty)valueDependencyProperty.GetValue(controlInstance), binding);
                 controlInstance.Margin = new Thickness(0, 0, 0, 10);
+                hintProperty?.SetValue(controlInstance, resourceLoader.GetString(property.Name));
                 Container.Children.Add(controlInstance);
             }
             return null;

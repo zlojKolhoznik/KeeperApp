@@ -20,9 +20,9 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Margin="10" HorizontalAlignment="Right" Command="{x:Bind ViewModel.SaveChangesCommand, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.IsInEditingMode, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Content="Save"/>
+                    Visibility="{x:Bind ViewModel.IsInEditingMode, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Content="{x:Bind ViewModel.Save}"/>
             <Button Margin="10" HorizontalAlignment="Right" Command="{x:Bind ViewModel.CancelChangesCommand, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.IsInEditingMode, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Content="Cancel"/>
+                    Visibility="{x:Bind ViewModel.IsInEditingMode, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Content="{x:Bind ViewModel.Cancel}"/>
             <Button Margin="10" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Command="{x:Bind ViewModel.EnterEditingModeCommand, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.IsInEditingMode, Converter={StaticResource ReversedBoolToVisibilityConverter}, Mode=OneWay}">
                 <SymbolIcon Symbol="Edit"/>

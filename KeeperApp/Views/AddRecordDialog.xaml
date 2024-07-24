@@ -9,8 +9,8 @@
     xmlns:interaction="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:behaviors="using:KeeperApp.Behaviors"
-    CloseButtonText="Cancel"
-    PrimaryButtonText="Save"
+    CloseButtonText="{x:Bind ViewModel.Cancel}"
+    PrimaryButtonText="{x:Bind ViewModel.Save}"
     PrimaryButtonCommand="{x:Bind ViewModel.SaveRecordCommand, Mode=OneWay}"
     mc:Ignorable="d">
     <ScrollViewer Height="400">

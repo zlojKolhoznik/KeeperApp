@@ -20,8 +20,10 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Globalization;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -33,6 +35,8 @@ namespace KeeperApp
     /// </summary>
     public partial class App : Application
     {
+        public event EventHandler LanguageChanged;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -44,6 +48,19 @@ namespace KeeperApp
             signInManager.UserSignedIn += SignInManager_UserSignedIn;
             signInManager.UserSignedOut += SignInManager_UserSignedOut;
             this.InitializeComponent();
+        }
+
+        public string Language
+        {
+            get => ApplicationLanguages.PrimaryLanguageOverride;
+            set
+            {
+                if (value != ApplicationLanguages.PrimaryLanguageOverride)
+                {
+                    ApplicationLanguages.PrimaryLanguageOverride = value;
+                    LanguageChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
         }
 
         private void SignInManager_UserSignedOut(object sender, SignInEventArgs e)

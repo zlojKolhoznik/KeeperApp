@@ -1,11 +1,6 @@
-﻿using CommunityToolkit.WinUI.UI.Converters;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KeeperApp.Converters
 {

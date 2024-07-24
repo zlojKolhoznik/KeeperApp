@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace KeeperApp.ViewModels
 {
@@ -14,6 +15,7 @@ namespace KeeperApp.ViewModels
     {
         private readonly SignInManager signInManager;
         private readonly KeeperDbContext dbContext;
+        private readonly ResourceLoader resourceLoader;
         private bool isWindowsHelloAvailable;
         private string currentPassword;
         private string newPassword;
@@ -26,8 +28,25 @@ namespace KeeperApp.ViewModels
         {
             this.signInManager = signInManager;
             this.dbContext = dbContext;
+            resourceLoader = new ResourceLoader();
             CheckWindowsHello();
         }
+
+        public string Title => resourceLoader.GetString("Settings");
+        public string WindwsHelloDescription => resourceLoader.GetString("WindwsHelloDescription");
+        public string EnableWindowsHelloLabel => resourceLoader.GetString("EnableWindowsHello");
+        public string DisableWindowsHelloLabel => resourceLoader.GetString("DisableWindowsHello");
+        public string WindowsHelloUnaccessible => resourceLoader.GetString("WindowsHelloUnaccessible");
+        public string ChangeMasterPassword => resourceLoader.GetString("ChangeMasterPassword");
+        public string CurrentPasswordLabel => resourceLoader.GetString("CurrentPassword");
+        public string NewPasswordLabel => resourceLoader.GetString("NewPassword");
+        public string ConfirmNewPasswordLabel => resourceLoader.GetString("ConfirmNewPassword");
+        public string DeleteAccountLabel => resourceLoader.GetString("DeleteAccount");
+        public string DeleteAccountWarning => resourceLoader.GetString("DeleteAccountWarning");
+        public string DeleteAccountPrompt => resourceLoader.GetString("DeleteAccountPrompt");
+        public string Language => resourceLoader.GetString("Language");
+        public string Delete => resourceLoader.GetString("Delete");
+        public string Cancel => resourceLoader.GetString("Cancel");
 
         public bool IsWindowsHelloConnected
         {
@@ -124,25 +143,21 @@ namespace KeeperApp.ViewModels
                     CurrentPassword = "";
                     NewPassword = "";
                     ConfirmPassword = "";
-                    ChangePasswordError = "Password changed successfully";
+                    ChangePasswordError = resourceLoader.GetString("PasswordChangedSuccessfully");
                 }
                 else
                 {
-                    ChangePasswordError = "Incorrect password";
+                    ChangePasswordError = resourceLoader.GetString("IncorrectPassword");
                 }
             }
             else
             {
-                ChangePasswordError = "Passwords do not match";
+                ChangePasswordError = resourceLoader.GetString("PasswordMismatch");
             }
         }
 
         private async Task DeleteAccount()
         {
-            if (await signInManager.IsWindowsHelloRegisteredAsync())
-            {
-                await signInManager.UnregisterWindowsHello(true);
-            }
             var recordsToDelete = dbContext.GetRecordsForUser(signInManager.CurrentUserName);
             foreach (var record in recordsToDelete)
             {
@@ -150,6 +165,10 @@ namespace KeeperApp.ViewModels
             }
             if (signInManager.Unregister(signInManager.CurrentUserName, DeleteAccountPassword))
             {
+                if (await signInManager.IsWindowsHelloRegisteredAsync())
+                {
+                    await signInManager.UnregisterWindowsHello(true);
+                }
                 await dbContext.SaveChangesAsync();
             }
         }

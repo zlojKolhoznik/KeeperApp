@@ -10,6 +10,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:customConverters="using:KeeperApp.Converters"
     xmlns:toolkitConverters="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:behaviors="using:KeeperApp.Behaviors"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -17,51 +18,62 @@
         <customConverters:ReversedBoolToVisibilityConverter x:Key="ReversedBoolToVisibilityConverter"/>
         <toolkitConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
-
-    <StackPanel>
-        <TextBlock FontSize="30" Text="Settings" Margin="15"/>
-        <TextBlock FontSize="20" Text="Windows Hello" Margin="10"/>
-        <TextBlock FontSize="14" Text="Windows Hello is a more personal way to sign in to your Windows 10 devices with just your face or fingerprint. You’ll get enterprise-grade security without having to type in a password." Margin="10"/>
-        <Button Margin="10"  Content="Enable Windows Hello for this account" 
+    <ScrollViewer Height="700" VerticalAlignment="Top">
+        <StackPanel>
+            <TextBlock FontSize="30" Text="{Binding Title}" Margin="15"/>
+            <TextBlock FontSize="20" Text="{Binding Language}" Margin="10"/>
+            <ComboBox Margin="10">
+                <ComboBox.Items>
+                    <ComboBoxItem Content="English" Tag="en-US"/>
+                    <ComboBoxItem Content="Українська" Tag="uk"/>
+                </ComboBox.Items>
+                <interaction:Interaction.Behaviors>
+                    <behaviors:LanguageSelectorBehavior/>
+                </interaction:Interaction.Behaviors>
+            </ComboBox>
+            <TextBlock FontSize="20" Text="Windows Hello" Margin="10"/>
+            <TextBlock FontSize="14" Text="{Binding WindwsHelloDescription}" Margin="10"/>
+            <Button Margin="10"  Content="{Binding EnableWindowsHelloLabel}" 
                 Visibility="{Binding IsWindowsHelloConnected, Converter={StaticResource ReversedBoolToVisibilityConverter}}" Background="{ThemeResource AccentAAFillColorDefaultBrush}"
                 Command="{Binding EnableWindowsHelloCommand}"/>
-        <Button Margin="10" Content="Disable Windows Hello for this account" 
+            <Button Margin="10" Content="{Binding DisableWindowsHelloLabel}" 
                 Background="{ThemeResource AccentAAFillColorTertiaryBrush}" Visibility="{Binding IsWindowsHelloConnected, Converter={StaticResource BoolToVisibilityConverter}}"
                 Command="{Binding DisableWindowsHelloCommand}"/>
-        <TextBlock x:Name="WindowsHelloInfo" FontSize="12" Foreground="Red" Text="To enable Windows Hello login, turn on Windows Hello in System Settings and reload this page" Margin="10"
+            <TextBlock x:Name="WindowsHelloInfo" FontSize="12" Foreground="Red" Text="{Binding WindowsHelloUnaccessible}" Margin="10"
                    Visibility="{Binding IsWindowsHelloAvailable, Converter={StaticResource ReversedBoolToVisibilityConverter}}"/>
-        <StackPanel Orientation="Horizontal" Margin="10,20,10,10">
-            <TextBlock FontSize="20" Text="Change Master Password"/>
-            <SymbolIcon Symbol="Permissions" Margin="10,0,0,0"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <PasswordBox Width="200" PlaceholderText="Current Password" Margin="0,5,15,10" Password="{Binding CurrentPassword, Mode=TwoWay}"/>
-            <PasswordBox Width="200" PlaceholderText="New Password" Margin="10,5,15,10" Password="{Binding NewPassword, Mode=TwoWay}"/>
-            <PasswordBox Width="200" PlaceholderText="Confirm New Password" Margin="10,5,15,10" Password="{Binding ConfirmPassword, Mode=TwoWay}"/>
-            <Button Content="Change master password" Margin="10,5,15,10" Width="200" Command="{Binding ChangePasswordCommand}"/>
-        </StackPanel>
-        <TextBlock Foreground="Red" FontSize="12" Margin="10" Text="{Binding ChangePasswordError}"/>
-        <TextBlock FontSize="20" Margin="10"  Text="Delete Account"/>
-        <TextBlock FontSize="14" Margin="10" Text="Deletion of account will result to loss of all private information stored in the applicaiton. Be sure to backup your data before deleting your account"/>
-        <Button Content="Delete Account" Margin="10" Width="200" Background="{ThemeResource AccentAcrylicBackgroundFillColorDefaultBrush}">
-            <Button.Flyout>
-                <Flyout Placement="RightEdgeAlignedTop" x:Name="DeleteAccountFlyout">
-                    <StackPanel>
-                        <TextBlock Text="To delete account, enter your master password"/>
-                        <PasswordBox Margin="10"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Content="Delete" Background="{ThemeResource AccentAcrylicBackgroundFillColorDefaultBrush}" Margin="5" Command="{Binding DeleteAccountCommand}"/>
-                            <Button Content="Cancel" Margin="5">
-                                <interaction:Interaction.Behaviors>
-                                    <core:EventTriggerBehavior EventName="Click">
-                                        <core:CallMethodAction MethodName="Hide" TargetObject="{x:Bind DeleteAccountFlyout}"/>
-                                    </core:EventTriggerBehavior>
-                                </interaction:Interaction.Behaviors>
-                            </Button>
+            <StackPanel Orientation="Horizontal" Margin="10,20,10,10">
+                <TextBlock FontSize="20" Text="{Binding ChangeMasterPassword}"/>
+                <SymbolIcon Symbol="Permissions" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <PasswordBox Width="200" PlaceholderText="{Binding CurrentPasswordLabel}" Margin="0,5,15,10" Password="{Binding CurrentPassword, Mode=TwoWay}"/>
+                <PasswordBox Width="200" PlaceholderText="{Binding NewPasswordLabel}" Margin="10,5,15,10" Password="{Binding NewPassword, Mode=TwoWay}"/>
+                <PasswordBox Width="200" PlaceholderText="{Binding ConfirmNewPasswordLabel}" Margin="10,5,15,10" Password="{Binding ConfirmPassword, Mode=TwoWay}"/>
+                <Button Content="{Binding ChangeMasterPassword}" Margin="10,5,15,10" Width="200" Command="{Binding ChangePasswordCommand}"/>
+            </StackPanel>
+            <TextBlock Foreground="Red" FontSize="12" Margin="10" Text="{Binding ChangePasswordError}"/>
+            <TextBlock FontSize="20" Margin="10"  Text="{Binding DeleteAccountLabel}"/>
+            <TextBlock FontSize="14" Margin="10" Text="{Binding DeleteAccountWarning}"/>
+            <Button Content="{Binding DeleteAccountLabel}" Margin="10" Width="200" Background="{ThemeResource AccentAcrylicBackgroundFillColorDefaultBrush}">
+                <Button.Flyout>
+                    <Flyout Placement="RightEdgeAlignedTop" x:Name="DeleteAccountFlyout">
+                        <StackPanel>
+                            <TextBlock Text="{Binding DeleteAccountPrompt}"/>
+                            <PasswordBox Margin="10"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Content="{Binding Delete}" Background="{ThemeResource AccentAcrylicBackgroundFillColorDefaultBrush}" Margin="5" Command="{Binding DeleteAccountCommand}"/>
+                                <Button Content="{Binding Cancel}" Margin="5">
+                                    <interaction:Interaction.Behaviors>
+                                        <core:EventTriggerBehavior EventName="Click">
+                                            <core:CallMethodAction MethodName="Hide" TargetObject="{x:Bind DeleteAccountFlyout}"/>
+                                        </core:EventTriggerBehavior>
+                                    </interaction:Interaction.Behaviors>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Flyout>
-            </Button.Flyout>
-        </Button>
-    </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

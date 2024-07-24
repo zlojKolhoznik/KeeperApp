@@ -29,11 +29,11 @@
         </Grid.ColumnDefinitions>
         <StackPanel Padding="10" Width="auto" Grid.ColumnSpan="2"
                     Orientation="Horizontal" VerticalAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}">
-            <TextBlock Text="Keeper Vault" FontSize="24"/>
+            <TextBlock Text="{x:Bind ViewModel.Title}" FontSize="24"/>
             <Button Margin="15,0,0,0" Padding="10" Background="{ThemeResource SystemColorControlAccentColor}" CornerRadius="20">
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Symbol="Add"/>
-                    <TextBlock Margin="5,0,0,0" Text="Add Record"/>
+                    <TextBlock Margin="5,0,0,0" Text="{x:Bind ViewModel.AddRecordButtonLabel}"/>
                 </StackPanel>
                 <interaction:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
@@ -73,16 +73,16 @@
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="Are you sure you want to delete this record?" Margin="10"/>
+                                                <TextBlock Text="{Binding Data.DeleteRecordPrompt, Source={StaticResource ViewModelProxy}}" Margin="10"/>
                                                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <Button Content="Yes" Padding="10" Margin="10" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                                                    <Button Content="{Binding Data.Yes, Source={StaticResource ViewModelProxy}}" Padding="10" Margin="10" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                                                         <interaction:Interaction.Behaviors>
                                                             <core:EventTriggerBehavior EventName="Click">
                                                                 <core:InvokeCommandAction Command="{Binding Data.DeleteRecordCommand, Source={StaticResource ViewModelProxy}}" CommandParameter="{Binding}"/>
                                                             </core:EventTriggerBehavior>
                                                         </interaction:Interaction.Behaviors>
                                                     </Button>
-                                                    <Button Content="No" Padding="10" Margin="10" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                                                    <Button Content="{Binding Data.No, Source={StaticResource ViewModelProxy}}" Padding="10" Margin="10" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                                                         <interaction:Interaction.Behaviors>
                                                             <core:EventTriggerBehavior EventName="Click">
                                                                 <core:CallMethodAction TargetObject="{Binding ElementName=ConfirmationFlyout}" MethodName="Hide"/>

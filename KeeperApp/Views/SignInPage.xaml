@@ -21,22 +21,22 @@
                 BorderThickness="1"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultSolidBrush}"
                 Padding="10">
-        <TextBlock Text="Sign in"
+        <TextBlock Text="{Binding SignInTitle}"
                    FontSize="24"
                    HorizontalTextAlignment="Center"
                    Margin="0,0,0,25"/>
-        <TextBox Text="{Binding Username, Mode=TwoWay}" PlaceholderText="Username" MinWidth="200" MaxWidth="300" Margin="30,10"/>
-        <PasswordBox Password="{Binding Password, Mode=TwoWay}" PlaceholderText="Password" MinWidth="200" MaxWidth="300" Margin="30,10"/>
+        <TextBox Text="{Binding Username, Mode=TwoWay}" PlaceholderText="{Binding UsernamePlaceholder}" MinWidth="200" MaxWidth="300" Margin="30,10"/>
+        <PasswordBox Password="{Binding Password, Mode=TwoWay}" PlaceholderText="{Binding PasswordPlaceholder}" MinWidth="200" MaxWidth="300" Margin="30,10"/>
         <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontSize="12" Margin="30,10"/>
         <StackPanel Orientation="Horizontal" Margin="0,10" HorizontalAlignment="Center">
-            <Button Content="Sign in" HorizontalAlignment="Center" Margin="10,5" Command="{Binding SignInCommand}"/>
+            <Button Content="{Binding SignInVerb}" HorizontalAlignment="Center" Margin="10,5" Command="{Binding SignInCommand}"/>
             <Button Margin="10,5" Background="Transparent" BorderBrush="Transparent" Visibility="{Binding IsWindowsHelloConnected, Converter={StaticResource BoolToVisibilityConverter}}"
                     Command="{Binding WindowsHelloSignInCommand}">
                 <Image Source="/Assets/WindowsHello.png" Height="18" Margin="5,0"/>
             </Button>
         </StackPanel>
         <HyperlinkButton HorizontalAlignment="Center">
-            <TextBlock Text="Don't have an account? Register!"
+            <TextBlock Text="{Binding RegisterLink}"
                        FontSize="14"
                        TextDecorations="Underline"/>
             <interaction:Interaction.Behaviors>

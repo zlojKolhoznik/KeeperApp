@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace KeeperApp.Data.Migrations
+namespace KeeperApp.Database.Migrations
 {
     [DbContext(typeof(KeeperDbContext))]
     [Migration("20240716064739_AlteredLoginModel")]

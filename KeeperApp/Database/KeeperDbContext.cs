@@ -1,11 +1,8 @@
 ﻿using KeeperApp.Records;
 using KeeperApp.Security;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KeeperApp.Database
 {
@@ -35,6 +32,7 @@ namespace KeeperApp.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<LoginRecord>().HasEncryption();
+            modelBuilder.Entity<CardCredentialsRecord>().HasEncryption();
             base.OnModelCreating(modelBuilder);
         }
     }

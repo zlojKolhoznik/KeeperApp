@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace KeeperApp.Data.Migrations
+namespace KeeperApp.Database.Migrations
 {
     /// <inheritdoc />
     public partial class AlteredLoginModel : Migration

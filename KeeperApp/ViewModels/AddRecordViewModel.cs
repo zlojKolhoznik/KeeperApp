@@ -5,12 +5,17 @@ using KeeperApp.Authentication;
 using KeeperApp.Database;
 using KeeperApp.Messaging;
 using KeeperApp.Records;
+using KeeperApp.Records.ViewAttributes;
 using KeeperApp.Security;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace KeeperApp.ViewModels
 {
@@ -18,100 +23,106 @@ namespace KeeperApp.ViewModels
     {
         private readonly KeeperDbContext dbContext;
         private readonly SignInManager signInManager;
-        private string title;
-        private string login;
-        private string password;
-        private string url;
-        private string notes;
+        private readonly ResourceLoader resourceLoader;
 
-        public string Title
-        {
-            get => title;
-            set 
-            {
-                title = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Login
-        {
-            get => login;
-            set
-            {
-                login = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Password 
-        { 
-            get => password; 
-            set
-            {
-                password = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Url
-        {
-            get => url;
-            set
-            {
-                url = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Notes
-        {
-            get => notes;
-            set
-            {
-                notes = value;
-                OnPropertyChanged();
-            }
-        }
+        private Dictionary<string, string> properties;
+        private Type recordType;
+        private string errorMessage;
+        private IEnumerable<ComboBoxItem> recordTypes;
 
         public AddRecordViewModel(KeeperDbContext dbContext, SignInManager signInManager)
         {
             this.dbContext = dbContext;
             this.signInManager = signInManager;
+            resourceLoader = new ResourceLoader();
+            Properties = new Dictionary<string, string>();
+            RecordType = (Type)RecordTypes.First().Tag;
         }
 
-        public RelayCommand SaveRecordCommand => new(SaveRecord);
+        public AsyncRelayCommand SaveRecordCommand => new(HandleSaveRecordCommandAsync);
+        public RelayCommand<ComboBoxItem> RecordTypeChangedCommand => new((item) => RecordType = (Type)item.Tag);
 
-        private void SaveRecord()
+        public Dictionary<string, string> Properties
+        {
+            get => properties;
+            set => SetProperty(ref properties, value);
+        }
+
+        public Type RecordType
+        {
+            get => recordType;
+            set
+            {
+                if (!value.IsSubclassOf(typeof(Record)) || value.IsAbstract)
+                {
+                    throw new ArgumentException("Type must be a conrete subclass of Record");
+                }
+                if (SetProperty(ref recordType, value))
+                {
+                    Properties.Clear();
+                    OnPropertyChanged(nameof(Title));
+                }
+            }
+        }
+
+        public string ErrorMessage
+        {
+            get => errorMessage;
+            set => SetProperty(ref errorMessage, value);
+        }
+
+        public IEnumerable<ComboBoxItem> RecordTypes => recordTypes ??= Assembly.GetAssembly(typeof(Record)).GetTypes()
+                        .Where(t => t.IsSubclassOf(typeof(Record)) && !t.IsAbstract)
+                        .Select(t => new ComboBoxItem { Content = resourceLoader.GetString(t.Name), Tag = t });
+
+        public string Title => "TEST"; //$"{resourceLoader.GetString("AddRecordTitle")} {resourceLoader.GetString(RecordType.Name)}";
+
+        private async Task HandleSaveRecordCommandAsync()
         {
             if (IsInputValid())
             {
-                var record = new LoginRecord
-                {
-                    Title = Title,
-                    Login = Login,
-                    Password = Password,
-                    Url = Url,
-                    Notes = Notes,
-                    Created = DateTime.Now,
-                    Modified = DateTime.MinValue,
-                    IsDeleted = false
-                };
-                record.OwnerUsernameHash = Sha256Hasher.GetSaltedHash(signInManager.CurrentUserName, record.Created.ToString());
-                dbContext.Logins.Add(record);
-                dbContext.SaveChanges();
-                var message = new RecordMessage
-                {
-                    Record = record,
-                    MesasgeType = RecordMessageType.Added
-                };
-                WeakReferenceMessenger.Default.Send(message);
+                await SaveRecordAsync();
             }
+            else
+            {
+                ErrorMessage = "Please fill in all required fields";
+            }
+        }
+
+        private async Task SaveRecordAsync()
+        {
+            Record record = (Record)Activator.CreateInstance(RecordType);
+            foreach (var prop in RecordType.GetProperties())
+            {
+                if (Properties.TryGetValue(prop.Name, out string value))
+                {
+                    prop.SetValue(record, value);
+                }
+            }
+            record.IsDeleted = false;
+            record.Created = DateTime.Now;
+            record.Modified = new DateTime(1970, 1, 1);
+            record.OwnerUsernameHash = Sha256Hasher.GetSaltedHash(signInManager.CurrentUserName, record.Created.ToString());
+            dbContext.Add(record);
+            await dbContext.SaveChangesAsync();
         }
 
         public bool IsInputValid()
         {
-            return !string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(Login) && !string.IsNullOrEmpty(Password);
+            bool result = true;
+            foreach (var prop in RecordType.GetProperties())
+            {
+                if (prop.GetCustomAttribute<RequiredPropertyAttribute>() is not null)
+                {
+                    if (!Properties.TryGetValue(prop.Name, out string value) || string.IsNullOrWhiteSpace(value))
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

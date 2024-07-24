@@ -13,13 +13,14 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\card.png" />
+    <Content Remove="Assets\person.png" />
     <Content Remove="Assets\record.png" />
     <Content Remove="Assets\WindowsHello.png" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="SignInWindow.xaml" />
     <None Remove="Views\AddRecordDialog.xaml" />
-    <None Remove="Views\EditRecordDialog.xaml" />
     <None Remove="Views\HomePage.xaml" />
     <None Remove="Views\RecordInfo.xaml" />
     <None Remove="Views\RegisterPage.xaml" />
@@ -63,6 +64,12 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Assets\card.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\person.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\record.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -82,9 +89,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="SignInWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Views\EditRecordDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\AddRecordDialog.xaml">

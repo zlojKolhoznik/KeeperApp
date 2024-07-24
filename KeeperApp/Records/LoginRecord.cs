@@ -23,7 +23,7 @@ namespace KeeperApp.Records
         private string notes;
         private string iconPath;
 
-        [EncryptProperty]
+        [EncryptProperty, RequiredProperty]
         public string Login 
         {
             get => login;
@@ -35,7 +35,7 @@ namespace KeeperApp.Records
             }
         }
 
-        [EncryptProperty, ViewContol(typeof(PasswordBox), "PasswordProperty")]
+        [EncryptProperty, RequiredProperty, ViewControl(typeof(PasswordBox), "PasswordProperty")]
         public string Password
         {
             get => password;
@@ -74,7 +74,7 @@ namespace KeeperApp.Records
         [EncryptProperty, Hidden]
         public override string IconPath 
         { 
-            get => string.IsNullOrWhiteSpace(iconPath) ? "/Assets/record.png" : iconPath;
+            get => string.IsNullOrWhiteSpace(iconPath) ? "/Assets/person.png" : iconPath;
             set
             {
                 iconPath = value;

@@ -77,7 +77,7 @@ namespace KeeperApp.Behaviors
 
         private Control CreateControlForProperty(PropertyInfo source)
         {
-            ViewContolAttribute viewContolAttribute = source.GetCustomAttribute<ViewContolAttribute>();
+            ViewControlAttribute viewContolAttribute = source.GetCustomAttribute<ViewControlAttribute>();
             Type controlType = viewContolAttribute?.ControlType ?? typeof(TextBox);
             Control control = (Control)Activator.CreateInstance(controlType);
             PropertyInfo headerProperty = controlType.GetProperty("Header");

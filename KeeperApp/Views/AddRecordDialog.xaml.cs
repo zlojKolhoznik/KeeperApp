@@ -30,5 +30,7 @@ namespace KeeperApp.Views
             DataContext = App.Current.Services.GetService<AddRecordViewModel>();
             this.InitializeComponent();
         }
+
+        public AddRecordViewModel ViewModel => (AddRecordViewModel)DataContext;
     }
 }

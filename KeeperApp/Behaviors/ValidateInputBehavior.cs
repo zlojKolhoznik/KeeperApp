@@ -25,10 +25,11 @@ namespace KeeperApp.Behaviors
 
         private void AssociatedObject_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
-            if (args.Result == ContentDialogResult.Primary && !((IValidator)AssociatedObject.DataContext).IsInputValid())
+            bool validationNeeded = args.Result == ContentDialogResult.Primary;
+            IValidator validator = (IValidator)AssociatedObject.DataContext;
+            if (validationNeeded && !validator.IsInputValid())
             {
                 args.Cancel = true;
-                sender.ContextFlyout.ShowAt(sender);
             }
         }
     }

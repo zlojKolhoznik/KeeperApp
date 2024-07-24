@@ -30,7 +30,7 @@ public abstract class Record : ObservableObject
     [Hidden]
     public abstract string Subtitle { get; }
 
-    [EncryptProperty]
+    [EncryptProperty, RequiredProperty]
     public string Title
     {
         get => title;

@@ -10,12 +10,12 @@ namespace KeeperApp.Records.ViewAttributes
     /// Sets the type of the control that will be used to display the property in the details view if it needs to be other than the default TextBox
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class ViewContolAttribute : Attribute
+    public class ViewControlAttribute : Attribute
     {
         public Type ControlType { get; }
         public string ValueDependencyPropertyName { get; }
 
-        public ViewContolAttribute(Type controlType, string valueDependencyPropertyName)
+        public ViewControlAttribute(Type controlType, string valueDependencyPropertyName)
         {
             if (!controlType.IsClass || controlType.IsAbstract)
             {

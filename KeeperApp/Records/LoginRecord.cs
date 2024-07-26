@@ -1,4 +1,5 @@
-﻿using KeeperApp.Records.ViewAttributes;
+﻿using KeeperApp.Controls;
+using KeeperApp.Records.ViewAttributes;
 using KeeperApp.Security;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -35,7 +36,7 @@ namespace KeeperApp.Records
             }
         }
 
-        [EncryptProperty, RequiredProperty, ViewControl(typeof(PasswordBox), "PasswordProperty")]
+        [EncryptProperty, RequiredProperty, ViewControl(typeof(PasswordBoxWithGenerator), "PasswordProperty")]
         public string Password
         {
             get => password;

@@ -1,4 +1,5 @@
-﻿using KeeperApp.Records.ViewAttributes;
+﻿using KeeperApp.Controls;
+using KeeperApp.Records.ViewAttributes;
 using KeeperApp.Security;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -27,7 +28,7 @@ namespace KeeperApp.Records
             }
         }
      
-        [EncryptProperty, RequiredProperty]
+        [EncryptProperty, RequiredProperty, ViewControl(typeof(ExpiryDateBox), "ValueProperty")]
         public string ExpiryDate
         {
             get => expiryDate;
@@ -38,7 +39,7 @@ namespace KeeperApp.Records
             }
         }
 
-        [EncryptProperty, RequiredProperty, ViewControl(typeof(PasswordBox), "PasswordProperty")]
+        [EncryptProperty, RequiredProperty, ViewControl(typeof(CvvBox), "CvvProperty")]
         public string Cvv
         {
             get => cvv;

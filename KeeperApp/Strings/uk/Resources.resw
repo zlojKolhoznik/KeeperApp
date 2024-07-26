@@ -121,7 +121,7 @@
     <value>Додати Запис</value>
   </data>
   <data name="AddRecordTitle" xml:space="preserve">
-    <value>Створити</value>
+    <value>Створити новий запис</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Відмінити</value>
@@ -146,6 +146,9 @@
   </data>
   <data name="Cvv" xml:space="preserve">
     <value>CVV</value>
+  </data>
+  <data name="CvvCopied" xml:space="preserve">
+    <value>CVV успішно скопійовано</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Видалити</value>

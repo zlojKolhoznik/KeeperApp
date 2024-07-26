@@ -30,7 +30,6 @@ namespace KeeperApp.Security
 
         public static string Encrypt(string value)
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value, nameof(value));
             if (!IsKeyConfigured())
             {
                 throw new ArgumentNullException(nameof(key), "Encryption key cannot be empty");
@@ -47,7 +46,6 @@ namespace KeeperApp.Security
 
         public static string Decrypt(string value) 
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value, nameof(value));
             if (!IsKeyConfigured())
             {
                 throw new ArgumentNullException(nameof(key), "Encryption key cannot be empty");

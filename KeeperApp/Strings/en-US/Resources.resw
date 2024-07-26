@@ -121,7 +121,7 @@
     <value>Add Record</value>
   </data>
   <data name="AddRecordTitle" xml:space="preserve">
-    <value>Create new</value>
+    <value>Create new record</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
@@ -146,6 +146,9 @@
   </data>
   <data name="Cvv" xml:space="preserve">
     <value>CVV</value>
+  </data>
+  <data name="CvvCopied" xml:space="preserve">
+    <value>CVV copied successfully</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>

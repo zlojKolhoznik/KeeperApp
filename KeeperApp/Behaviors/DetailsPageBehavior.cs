@@ -86,6 +86,8 @@ namespace KeeperApp.Behaviors
             Control control = (Control)Activator.CreateInstance(controlType);
             PropertyInfo headerProperty = controlType.GetProperty("Header");
             headerProperty?.SetValue(control, resourceLoader.GetString(source.Name));
+            PropertyInfo dpInfo = controlType.GetProperty(viewContolAttribute?.ValueDependencyPropertyName ?? "TextProperty");
+            SetControlValue(control, source, (DependencyProperty)dpInfo.GetValue(control));
             PropertyInfo readOnlyProperty = controlType.GetProperty("IsReadOnly");
             if (readOnlyProperty is not null)
             {
@@ -99,8 +101,6 @@ namespace KeeperApp.Behaviors
             {
                 control.IsEnabled = IsInEditingMode;
             }
-            PropertyInfo dpInfo = controlType.GetProperty(viewContolAttribute?.ValueDependencyPropertyName ?? "TextProperty");
-            SetControlValue(control, source, (DependencyProperty)dpInfo.GetValue(control));
             control.Margin = new Thickness(10);
             return control;
         }

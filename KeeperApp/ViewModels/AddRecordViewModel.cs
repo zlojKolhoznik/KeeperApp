@@ -26,7 +26,7 @@ namespace KeeperApp.ViewModels
         private readonly ResourceLoader resourceLoader;
 
         private Dictionary<string, string> properties;
-        private Type recordType;
+        private ComboBoxItem selectedRecordType;
         private string errorMessage;
         private IEnumerable<ComboBoxItem> recordTypes;
 
@@ -36,11 +36,10 @@ namespace KeeperApp.ViewModels
             this.signInManager = signInManager;
             resourceLoader = new ResourceLoader();
             Properties = new Dictionary<string, string>();
-            RecordType = (Type)RecordTypes.First().Tag;
+            SelectedRecordType = RecordTypes.First();
         }
 
         public AsyncRelayCommand SaveRecordCommand => new(HandleSaveRecordCommandAsync);
-        public RelayCommand<ComboBoxItem> RecordTypeChangedCommand => new((item) => RecordType = (Type)item.Tag);
 
         public Dictionary<string, string> Properties
         {
@@ -48,21 +47,10 @@ namespace KeeperApp.ViewModels
             set => SetProperty(ref properties, value);
         }
 
-        public Type RecordType
+        public ComboBoxItem SelectedRecordType
         {
-            get => recordType;
-            set
-            {
-                if (!value.IsSubclassOf(typeof(Record)) || value.IsAbstract)
-                {
-                    throw new ArgumentException("Type must be a conrete subclass of Record");
-                }
-                if (SetProperty(ref recordType, value))
-                {
-                    Properties.Clear();
-                    OnPropertyChanged(nameof(Title));
-                }
-            }
+            get => selectedRecordType;
+            set => SetProperty(ref selectedRecordType, value);
         }
 
         public string ErrorMessage
@@ -75,7 +63,7 @@ namespace KeeperApp.ViewModels
                         .Where(t => t.IsSubclassOf(typeof(Record)) && !t.IsAbstract)
                         .Select(t => new ComboBoxItem { Content = resourceLoader.GetString(t.Name), Tag = t });
 
-        public string Title => $"{resourceLoader.GetString("AddRecordTitle")} {resourceLoader.GetString(RecordType.Name)}";
+        public string Title => $"{resourceLoader.GetString("AddRecordTitle")}";
         public string Save => resourceLoader.GetString("Save");
         public string Cancel => resourceLoader.GetString("Cancel");
 
@@ -93,8 +81,9 @@ namespace KeeperApp.ViewModels
 
         private async Task SaveRecordAsync()
         {
-            Record record = (Record)Activator.CreateInstance(RecordType);
-            foreach (var prop in RecordType.GetProperties())
+            Type recordType = (Type)SelectedRecordType.Tag;
+            Record record = (Record)Activator.CreateInstance(recordType);
+            foreach (var prop in recordType.GetProperties())
             {
                 if (Properties.TryGetValue(prop.Name, out string value))
                 {
@@ -113,7 +102,8 @@ namespace KeeperApp.ViewModels
         public bool IsInputValid()
         {
             bool result = true;
-            foreach (var prop in RecordType.GetProperties())
+            Type recordType = (Type)SelectedRecordType.Tag;
+            foreach (var prop in recordType.GetProperties())
             {
                 if (prop.GetCustomAttribute<RequiredPropertyAttribute>() is not null)
                 {

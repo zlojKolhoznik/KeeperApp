@@ -14,11 +14,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\card.png" />
+    <Content Remove="Assets\generate.png" />
     <Content Remove="Assets\person.png" />
     <Content Remove="Assets\record.png" />
     <Content Remove="Assets\WindowsHello.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Controls\CvvBox.xaml" />
+    <None Remove="Controls\ExpiryDateBox.xaml" />
+    <None Remove="Controls\PasswordBoxWithGenerator.xaml" />
     <None Remove="SignInWindow.xaml" />
     <None Remove="Views\AddRecordDialog.xaml" />
     <None Remove="Views\HomePage.xaml" />
@@ -67,6 +71,9 @@
     <None Update="Assets\card.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\generate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\person.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -76,6 +83,12 @@
     <None Update="Assets\WindowsHello.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\CvvBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\PasswordBoxWithGenerator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\RecordInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -109,4 +122,10 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\ExpiryDateBox.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\ExpiryDateBox.xaml" />
+  </ItemGroup>
 </Project>

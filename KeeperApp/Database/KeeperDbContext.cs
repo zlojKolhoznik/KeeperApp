@@ -1,19 +1,23 @@
 ﻿using KeeperApp.Records;
 using KeeperApp.Security;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace KeeperApp.Database
 {
     public class KeeperDbContext : DbContext
     {
+        private static string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "KeeperApp", "KeeperDb.db");
+
         public DbSet<LoginRecord> Logins { get; set; }
         public DbSet<CardCredentialsRecord> CardCredentials { get; set; }
 
-        public KeeperDbContext()
+        public KeeperDbContext() : base()
         {
-            
+            Database.Migrate();
         }
 
         public IEnumerable<Record> GetRecordsForUser(string username)
@@ -25,7 +29,7 @@ namespace KeeperApp.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-5GVDE96;Database=KeeperDb;Trusted_Connection=True;TrustServerCertificate=true");
+            optionsBuilder.UseSqlite($"Data Source={databasePath}");
             base.OnConfiguring(optionsBuilder);
         }
 

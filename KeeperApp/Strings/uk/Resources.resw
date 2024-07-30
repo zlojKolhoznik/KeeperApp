@@ -123,6 +123,12 @@
   <data name="AddRecordTitle" xml:space="preserve">
     <value>Створити новий запис</value>
   </data>
+  <data name="AnalyzePasswordsLabel" xml:space="preserve">
+    <value>Проаналізувати паролі</value>
+  </data>
+  <data name="AverageScoreLabel" xml:space="preserve">
+    <value>середня оцінка</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Відмінити</value>
   </data>
@@ -215,6 +221,12 @@
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
+  </data>
+  <data name="PasswordAnalysis" xml:space="preserve">
+    <value>Аналіз паролей</value>
+  </data>
+  <data name="PasswordAnalysisTitle" xml:space="preserve">
+    <value>Аналіз паролей</value>
   </data>
   <data name="PasswordChangedSuccessfully" xml:space="preserve">
     <value>Пароль було змінено успішно</value>

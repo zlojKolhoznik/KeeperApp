@@ -123,6 +123,12 @@
   <data name="AddRecordTitle" xml:space="preserve">
     <value>Create new record</value>
   </data>
+  <data name="AnalyzePasswordsLabel" xml:space="preserve">
+    <value>Analyze passwords</value>
+  </data>
+  <data name="AverageScoreLabel" xml:space="preserve">
+    <value>average score</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -215,6 +221,12 @@
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="PasswordAnalysis" xml:space="preserve">
+    <value>Password analysis</value>
+  </data>
+  <data name="PasswordAnalysisTitle" xml:space="preserve">
+    <value>Password analysis</value>
   </data>
   <data name="PasswordChangedSuccessfully" xml:space="preserve">
     <value>Password changed successfully</value>

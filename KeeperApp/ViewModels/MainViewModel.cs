@@ -28,6 +28,7 @@ namespace KeeperApp.ViewModels
         public string Home => resourceLoader.GetString("Home");
         public string Exit => resourceLoader.GetString("Exit");
         public string SignOut => resourceLoader.GetString("SignOut");
+        public string PasswordAnalysis => resourceLoader.GetString("PasswordAnalysis");
 
         public RelayCommand ExitCommand => new(App.Current.Exit);
 

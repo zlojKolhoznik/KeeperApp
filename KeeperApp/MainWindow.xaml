@@ -29,6 +29,7 @@
                 </NavigationViewItem>
                 <NavigationViewItemSeparator/>
                 <NavigationViewItem x:Name="Home" Content="{x:Bind ViewModel.Home}" Icon="Home" Tag="KeeperApp.Views.HomePage" IsSelected="True" SelectsOnInvoked="True"/>
+                <NavigationViewItem x:Name="PasswordAnalysis" Content="{x:Bind ViewModel.PasswordAnalysis}" Icon="Permissions" Tag="KeeperApp.Views.PasswordAnalysisPage" IsSelected="True" SelectsOnInvoked="True"/>
             </NavigationView.MenuItems>
             <NavigationView.PaneFooter>
                 <NavigationViewItem x:Name="Exit" Content="{x:Bind ViewModel.Exit}" Icon="Cancel">

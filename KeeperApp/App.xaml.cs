@@ -1,4 +1,6 @@
-﻿using KeeperApp.Authentication;
+﻿using Easy_Password_Validator;
+using Easy_Password_Validator.Models;
+using KeeperApp.Authentication;
 using KeeperApp.Database;
 using KeeperApp.Records;
 using KeeperApp.Security;
@@ -94,6 +96,8 @@ namespace KeeperApp
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<RecordInfoViewModel>();
             services.AddTransient<SignInViewModel>();
+            services.AddTransient<PasswordAnalysisViewModel>();
+            services.AddTransient(service => new PasswordValidatorService(new PasswordRequirements()));
             services.AddSingleton<SignInManager>();
             services.AddDbContext<KeeperDbContext>();
             return services.BuildServiceProvider();

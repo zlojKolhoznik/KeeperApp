@@ -48,9 +48,9 @@ namespace KeeperApp.Controls
             }
         }
 
-        public string Month => Value?.Split('/')?[0] ?? string.Empty;
+        public string Month => Value?.Split('/').Length == 2 ? Value?.Split('/')[0] : string.Empty;
 
-        public string Year => Value?.Split('/')?[1] ?? string.Empty;
+        public string Year => Value?.Split('/').Length == 2 ? Value?.Split('/')[1] : string.Empty;
 
         public string Header
         {

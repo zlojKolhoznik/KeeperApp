@@ -83,7 +83,7 @@ namespace KeeperApp.Behaviors
 
         private bool IsIndexer(string propertyName)
         {
-            return Regex.IsMatch(Path, @"(\[\d+\]){1}$");
+            return Regex.IsMatch(propertyName, @"(\[\d+\]){1}$");
         }
 
         private IEnumerable<string> GetPropertyNamesFromPath(string path)

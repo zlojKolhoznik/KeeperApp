@@ -23,8 +23,8 @@ namespace KeeperApp.Records
             get => cardNumber;
             set
             {
-                cardNumber = value;
-                OnPropertyChanged();
+                SetProperty(ref cardNumber, value);
+                OnPropertyChanged(nameof(Subtitle));
             }
         }
      
@@ -32,33 +32,21 @@ namespace KeeperApp.Records
         public string ExpiryDate
         {
             get => expiryDate;
-            set
-            {
-                expiryDate = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref expiryDate, value);
         }
 
         [EncryptProperty, RequiredProperty, ViewControl(typeof(CvvBox), "CvvProperty")]
         public string Cvv
         {
             get => cvv;
-            set
-            {
-                cvv = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref cvv, value);
         }
 
         [EncryptProperty, Hidden]
         public override string IconPath
         {
             get => string.IsNullOrWhiteSpace(iconPath) ? "/Assets/card.png" : iconPath;
-            set
-            {
-                iconPath = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref iconPath, value);
         }
         
         [Hidden]

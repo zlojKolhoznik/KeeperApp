@@ -9,7 +9,7 @@ namespace KeeperApp.Models
 {
     public class PasswordAnalysisResult
     {
-        public Record Record { get; set; }
+        public LoginRecord Record { get; set; }
         public bool Pass { get; set; }
         public int Score { get; set; }
         public IEnumerable<string> FailureMessages { get; set; }

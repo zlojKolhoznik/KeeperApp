@@ -1,3 +1,4 @@
+using KeeperApp.Models;
 using KeeperApp.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -21,16 +22,24 @@ using Windows.Foundation.Collections;
 namespace KeeperApp.Views
 {
     /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AddRecordDialog : ContentDialog
+    public sealed partial class LoginRecordDetailsPage : Page
     {
-        public AddRecordDialog()
+        public LoginRecordDetailsPage()
         {
-            DataContext = App.Current.Services.GetService<AddRecordViewModel>();
             this.InitializeComponent();
+            ViewModel = App.Current.Services.GetService<LoginInfoViewModel>();
         }
 
-        public AddRecordViewModel ViewModel => (AddRecordViewModel)DataContext;
+        public LoginInfoViewModel ViewModel { get; set; }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            DetailsPageConfig config = (DetailsPageConfig)e.Parameter;
+            ViewModel.SetRecordById(config.RecordId);
+            ViewModel.ReadOnlyMode = !config.EnableEditing;
+        }
     }
 }

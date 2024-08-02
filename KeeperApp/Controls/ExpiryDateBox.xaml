@@ -19,8 +19,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Bind Header}" VerticalAlignment="Center" Margin="0,0,0,5"/>
-        <TextBox x:Name="MonthBox" Grid.Row="1" Text="{x:Bind Month}"  PlaceholderText="MM" MaxLength="2" TextChanged="MonthChanged" Grid.Column="0" Margin="0,0,10,0"/>
+        <TextBox IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}" x:Name="MonthBox" Grid.Row="1" PlaceholderText="MM" MaxLength="2" TextChanged="MonthChanged" Grid.Column="0" Margin="0,0,10,0"/>
         <TextBlock Grid.Column="1" Grid.Row="1" Text="/" VerticalAlignment="Center"/>
-        <TextBox x:Name="YearBox" Grid.Row="1" Text="{x:Bind Year}" PlaceholderText="YY" TextChanged="YearChanged" MaxLength="2" Grid.Column="2" Margin="10,0,0,0"/>
+        <TextBox IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}" x:Name="YearBox" Grid.Row="1" PlaceholderText="YY" TextChanged="YearChanged" MaxLength="2" Grid.Column="2" Margin="10,0,0,0"/>
     </Grid>
 </UserControl>

@@ -30,8 +30,7 @@ namespace KeeperApp.Records
             get => login;
             set
             {
-                login = value;
-                OnPropertyChanged();
+                SetProperty(ref login, value);
                 OnPropertyChanged(nameof(Subtitle));
             }
         }
@@ -40,33 +39,21 @@ namespace KeeperApp.Records
         public string Password
         {
             get => password;
-            set
-            {
-                password = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref password, value);
         }
 
         [EncryptProperty]
         public string Url
         {
             get => url;
-            set
-            {
-                url = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref url, value);
         }
 
         [EncryptProperty]
         public string Notes
         {
             get => notes;
-            set
-            {
-                notes = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref notes, value);
         }
 
         [Hidden]
@@ -76,11 +63,7 @@ namespace KeeperApp.Records
         public override string IconPath 
         { 
             get => string.IsNullOrWhiteSpace(iconPath) ? "/Assets/person.png" : iconPath;
-            set
-            {
-                iconPath = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref iconPath, value);
         }
     }
 }

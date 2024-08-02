@@ -20,7 +20,7 @@ namespace KeeperApp.ViewModels
         private string confirmPassword;
         private string errorMessage;
 
-        public SignInViewModel(SignInManager signInManager) 
+        public SignInViewModel(SignInManager signInManager)
         {
             this.signInManager = signInManager;
             resourceLoader = new ResourceLoader();
@@ -95,22 +95,19 @@ namespace KeeperApp.ViewModels
             }
         }
 
-        private void Register() 
+        private void Register()
         {
             if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(ConfirmPassword))
             {
                 ErrorMessage = resourceLoader.GetString("RequiredFieldsPrompt");
             }
-            else if (Password == ConfirmPassword)
-            {
-                if (!signInManager.Register(Username, Password))
-                {
-                    ErrorMessage = resourceLoader.GetString("InvalidRegister");
-                }
-            }
-            else
+            else if (Password != ConfirmPassword)
             {
                 ErrorMessage = resourceLoader.GetString("PasswordMismatch");
+            }
+            else if (!signInManager.Register(Username, Password))
+            {
+                ErrorMessage = resourceLoader.GetString("InvalidRegister");
             }
         }
 

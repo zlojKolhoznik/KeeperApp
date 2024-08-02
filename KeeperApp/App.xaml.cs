@@ -2,29 +2,11 @@
 using Easy_Password_Validator.Models;
 using KeeperApp.Authentication;
 using KeeperApp.Database;
-using KeeperApp.Records;
 using KeeperApp.Security;
 using KeeperApp.ViewModels;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Resources.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Globalization;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -92,9 +74,11 @@ namespace KeeperApp
             var services = new ServiceCollection();
             services.AddTransient<MainViewModel>();
             services.AddTransient<HomeViewModel>();
-            services.AddTransient<AddRecordViewModel>();
+            services.AddTransient<AddLoginViewModel>();
+            services.AddTransient<AddCardCredentialsViewModel>();
             services.AddTransient<SettingsViewModel>();
-            services.AddTransient<RecordInfoViewModel>();
+            services.AddTransient<LoginInfoViewModel>();
+            services.AddTransient<CardCredentialsInfoViewModel>();
             services.AddTransient<SignInViewModel>();
             services.AddTransient<PasswordAnalysisViewModel>();
             services.AddTransient(service => new PasswordValidatorService(new PasswordRequirements()));

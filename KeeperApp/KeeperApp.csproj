@@ -24,10 +24,12 @@
     <None Remove="Controls\ExpiryDateBox.xaml" />
     <None Remove="Controls\PasswordBoxWithGenerator.xaml" />
     <None Remove="SignInWindow.xaml" />
-    <None Remove="Views\AddRecordDialog.xaml" />
+    <None Remove="Views\AddCardCredentialsDialog.xaml" />
+    <None Remove="Views\AddLoginDialog.xaml" />
+    <None Remove="Views\CardCredentialsRecordDetailsPage.xaml" />
     <None Remove="Views\HomePage.xaml" />
+    <None Remove="Views\LoginRecordDetailsPage.xaml" />
     <None Remove="Views\PasswordAnalysisPage.xaml" />
-    <None Remove="Views\RecordInfo.xaml" />
     <None Remove="Views\RegisterPage.xaml" />
     <None Remove="Views\SettingsPage.xaml" />
     <None Remove="Views\SignInPage.xaml" />
@@ -85,6 +87,16 @@
     <None Update="Assets\WindowsHello.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\CardCredentialsRecordDetailsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\AddCardCredentialsDialog.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AddLoginDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\PasswordAnalysisPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -92,9 +104,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\PasswordBoxWithGenerator.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Views\RecordInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\SettingsPage.xaml">
@@ -107,9 +116,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="SignInWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Views\AddRecordDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -132,5 +138,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\ExpiryDateBox.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Views\LoginRecordDetailsPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Views\LoginRecordDetailsPage.xaml" />
   </ItemGroup>
 </Project>

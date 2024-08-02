@@ -5,14 +5,8 @@ using KeeperApp.Authentication;
 using KeeperApp.Database;
 using KeeperApp.Messaging;
 using KeeperApp.Records;
-using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 
 namespace KeeperApp.ViewModels
@@ -20,14 +14,12 @@ namespace KeeperApp.ViewModels
     public class HomeViewModel : ObservableRecipient, IRecipient<RecordMessage>
     {
         private readonly KeeperDbContext dbContext;
-        private readonly SignInManager signInManager;
         private readonly ResourceLoader resourceLoader;
         private ObservableCollection<Record> records;
 
         public HomeViewModel(KeeperDbContext dbContext, SignInManager signInManager)
         {
             this.dbContext = dbContext;
-            this.signInManager = signInManager;
             resourceLoader = new ResourceLoader();
             Records = new ObservableCollection<Record>(dbContext.GetRecordsForUser(signInManager.CurrentUserName).OrderByDescending(r => r.Created));
             WeakReferenceMessenger.Default.Register<HomeViewModel, RecordMessage>(this, (r, m) => r.Receive(m));
@@ -50,6 +42,8 @@ namespace KeeperApp.ViewModels
         public string DeleteRecordPrompt => resourceLoader.GetString("DeleteRecordPrompt");
         public string Yes => resourceLoader.GetString("Yes");
         public string No => resourceLoader.GetString("No");
+        public string AddLoginRecordButtonLabel => resourceLoader.GetString("LoginRecord");
+        public string AddtCardCredentialsRecordButtonLabel => resourceLoader.GetString("CardCredentialsRecord");
 
         public void DeleteRecord(Record record)
         {
@@ -68,6 +62,10 @@ namespace KeeperApp.ViewModels
                 case RecordMessageType.Deleted:
                     var recordToDelete = Records.FirstOrDefault(r => r.Id == message.Record.Id);
                     Records.Remove(recordToDelete);
+                    break;
+                case RecordMessageType.Updated:
+                    var recordIndex = Records.IndexOf(Records.FirstOrDefault(r => r.Id == message.Record.Id));
+                    Records[recordIndex] = message.Record;
                     break;
             }
             Records = new ObservableCollection<Record>(Records.OrderByDescending(r => r.Created));

@@ -24,8 +24,6 @@ namespace KeeperApp.Controls
             resourceLoader = new ResourceLoader();
         }
 
-        public double PasswordBoxWidth => double.IsNaN(Width) ? MaxWidth * .8 : Width * .8;
-
         public static DependencyProperty PasswordProperty { get; set; } = DependencyProperty.Register("Password", typeof(string), typeof(PasswordBoxWithGenerator), new PropertyMetadata(""));
         public static DependencyProperty PasswordLengthProperty { get; set; } = DependencyProperty.Register("PasswordLength", typeof(int), typeof(PasswordBoxWithGenerator), new PropertyMetadata(8));
         public static DependencyProperty UseLowercaseProperty { get; set; } = DependencyProperty.Register("UseLowercase", typeof(bool), typeof(PasswordBoxWithGenerator), new PropertyMetadata(true));

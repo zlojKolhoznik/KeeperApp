@@ -88,7 +88,7 @@ namespace KeeperApp.Authentication
             return success;
         }
 
-        public static async Task<bool> IsRegisteredForAsync(string username)
+        public static async Task<bool> IsConnectedToAsync(string username)
         {
             KeyCredentialRetrievalResult result = await KeyCredentialManager.OpenAsync(username);
             return result.Status == KeyCredentialStatus.Success;

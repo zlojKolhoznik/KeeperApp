@@ -17,6 +17,8 @@ namespace KeeperApp.Database
 
         public KeeperDbContext() : base()
         {
+            // We use Migrate() instead of EnsureCreated() to apply migrations. 
+            // Also we don't want to use dotnet-ef CLI to apply migrations because it requires for user to do the same and uses different path for the database file.
             Database.Migrate();
         }
 

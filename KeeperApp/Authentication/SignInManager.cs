@@ -1,6 +1,5 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
+﻿using KeeperApp.Security;
+using System;
 using System.Threading.Tasks;
 using Windows.Security.Credentials;
 
@@ -31,10 +30,10 @@ namespace KeeperApp.Authentication
 
         public bool SignIn(string username, string password) 
         {
-            bool success = false;
-            string passwordHash = GetHash(password);
+            bool success;
             try
             {
+                string passwordHash = Sha256Hasher.GetHash(password);
                 var vault = new PasswordVault();
                 var credential = vault.Retrieve(CredentialLockerResourceName, username);
                 credential.RetrievePassword();
@@ -55,7 +54,6 @@ namespace KeeperApp.Authentication
         {
             bool success = true;
             var vault = new PasswordVault();
-            string passwordHash = GetHash(password);
             try
             {
                 vault.Retrieve(CredentialLockerResourceName, username);
@@ -63,6 +61,7 @@ namespace KeeperApp.Authentication
             }
             catch
             {
+                string passwordHash = Sha256Hasher.GetHash(password);
                 var credential = new PasswordCredential(CredentialLockerResourceName, username, passwordHash);
                 vault.Add(credential);
                 CurrentUserName = username;
@@ -72,10 +71,10 @@ namespace KeeperApp.Authentication
 
         public bool Unregister(string username, string password) 
         {
-            bool success = false;
-            string passwordHash = GetHash(password);
+            bool success;
             try
             {
+                string passwordHash = Sha256Hasher.GetHash(password);
                 var vault = new PasswordVault();
                 var credential = vault.Retrieve(CredentialLockerResourceName, username);
                 credential.RetrievePassword();
@@ -95,9 +94,9 @@ namespace KeeperApp.Authentication
 
         public bool ChangePassword(string username, string oldPassword, string newPassword) 
         {
-            bool success = false;
-            string oldPasswordHash = GetHash(oldPassword);
-            string newPasswordHash = GetHash(newPassword);
+            bool success;
+            string oldPasswordHash = Sha256Hasher.GetHash(oldPassword);
+            string newPasswordHash = Sha256Hasher.GetHash(newPassword);
             try
             {
                 var vault = new PasswordVault();
@@ -118,13 +117,6 @@ namespace KeeperApp.Authentication
             return success;
         }
 
-        private string GetHash(string value)
-        {
-            using var sha256 = SHA256.Create();
-            byte[] hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(value));
-            return Convert.ToBase64String(hash);
-        }
-
         public void SignOut() 
         {
             CurrentUserName = null;
@@ -138,7 +130,7 @@ namespace KeeperApp.Authentication
             }
         }
 
-        public async Task<bool> RegisterWindowsHelloAsync()
+        public async Task<bool> ConnectWindowsHelloAsync()
         {
             bool result = true;
             if (await WindowsHelloHelper.IsWindowsHelloAvailableAsync())
@@ -148,19 +140,19 @@ namespace KeeperApp.Authentication
             return result;
         }
 
-        public async Task<bool> UnregisterWindowsHello(bool skipConfirmation = false)
+        public async Task<bool> DisconnectWindowsHello(bool skipConfirmation = false)
         {
             bool result = true;
-            if (await IsWindowsHelloRegisteredAsync())
+            if (await IsWindowsHelloConnectedAsync())
             {
                 result = await WindowsHelloHelper.DeleteKeyAsync(CurrentUserName, skipConfirmation);
             }
             return result;
         }
 
-        public async Task<bool> IsWindowsHelloRegisteredAsync()
+        public async Task<bool> IsWindowsHelloConnectedAsync()
         {
-            return await WindowsHelloHelper.IsRegisteredForAsync(CurrentUserName);
+            return await WindowsHelloHelper.IsConnectedToAsync(CurrentUserName);
         }
     }
 }

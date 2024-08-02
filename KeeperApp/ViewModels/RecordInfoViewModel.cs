@@ -1,31 +1,31 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using KeeperApp.Database;
+using KeeperApp.Messaging;
 using KeeperApp.Records;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 
 namespace KeeperApp.ViewModels
 {
-    public class RecordInfoViewModel : ObservableObject
+    public abstract class RecordInfoViewModel : ObservableRecipient, IRecipient<RecordMessage>
     {
-        private Record record;
-        private bool isInEditingMode;
-        private readonly KeeperDbContext dbContext;
-        private readonly ResourceLoader resourceLoader;
+        private bool readOnlyMode;
+        protected readonly KeeperDbContext dbContext;
+        protected Record record;
+        protected readonly ResourceLoader resourceLoader;
 
         public RecordInfoViewModel(KeeperDbContext dbContext)
         {
             this.dbContext = dbContext;
             resourceLoader = new ResourceLoader();
+            WeakReferenceMessenger.Default.Register<RecordInfoViewModel, RecordMessage>(this, (r, m) => r.Receive(m));
         }
 
         public string Save => resourceLoader.GetString("Save");
         public string Cancel => resourceLoader.GetString("Cancel");
+        public string TitleLabel => resourceLoader.GetString("Title");
 
         public Record Record
         {
@@ -33,30 +33,38 @@ namespace KeeperApp.ViewModels
             set => SetProperty(ref record, value, nameof(Record));
         }
 
-        public bool IsInEditingMode
+        public bool ReadOnlyMode
         {
-            get => isInEditingMode;
-            set => SetProperty(ref isInEditingMode, value, nameof(IsInEditingMode));
+            get => readOnlyMode;
+            set => SetProperty(ref readOnlyMode, value, nameof(ReadOnlyMode));
         }
 
-        public RelayCommand EnterEditingModeCommand => new(() => IsInEditingMode = true);
+        public RelayCommand EnterEditingModeCommand => new(() => ReadOnlyMode = false);
 
         public RelayCommand SaveChangesCommand => new(() =>
         {
+            Record.Modified = DateTime.Now;
             dbContext.Update(Record);
             dbContext.SaveChanges();
-            IsInEditingMode = false;
+            WeakReferenceMessenger.Default.Send(new RecordMessage { Record = Record, MesasgeType = RecordMessageType.Updated });
+            ReadOnlyMode = true;
         });
 
         public RelayCommand CancelChangesCommand => new(() =>
         {
-            var values = dbContext.Entry(Record).GetDatabaseValues();
-            foreach (var property in values.Properties)
-            {
-                Record.GetType().GetProperty(property.Name).SetValue(Record, values[property]);
-            }
-            IsInEditingMode = false;
+            dbContext.Entry(Record).Reload();
+            WeakReferenceMessenger.Default.Send(new RecordMessage { Record = Record, MesasgeType = RecordMessageType.Updated });
+            ReadOnlyMode = true;
         });
 
+        public abstract void SetRecordById(int recordId);
+
+        public void Receive(RecordMessage message)
+        {
+            if (message.MesasgeType == RecordMessageType.Updated && message.Record.Id == Record.Id)
+            {
+                OnPropertyChanged(nameof(Record));
+            }
+        }
     }
 }

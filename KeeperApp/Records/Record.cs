@@ -34,10 +34,6 @@ public abstract class Record : ObservableObject
     public string Title
     {
         get => title;
-        set
-        {
-            title = value;
-            OnPropertyChanged();
-        }
+        set => SetProperty(ref title, value);
     }
 }

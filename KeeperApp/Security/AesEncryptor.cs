@@ -14,11 +14,7 @@ namespace KeeperApp.Security
         public static void ConfigureKey(string keySource)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(keySource, nameof(keySource));
-
-            using var hashAlg = SHA256.Create();
-            byte[] sourceBytes = Encoding.UTF8.GetBytes(keySource);
-            byte[] hash = hashAlg.ComputeHash(sourceBytes);
-            key = Convert.ToBase64String(hash);
+            key = Sha256Hasher.GetHash(keySource);
         }
 
         public static void UnconfigureKey()
@@ -26,13 +22,13 @@ namespace KeeperApp.Security
             key = string.Empty;
         }
 
-        public static bool IsKeyConfigured() => !string.IsNullOrEmpty(key);
+        public static bool IsKeyConfigured() => !string.IsNullOrWhiteSpace(key);
 
         public static string Encrypt(string value)
         {
             if (!IsKeyConfigured())
             {
-                throw new ArgumentNullException(nameof(key), "Encryption key cannot be empty");
+                throw new NullReferenceException("Encryption key cannot be empty");
             }
             using var aesAlg = Aes.Create();
             string iv = Convert.ToBase64String(aesAlg.IV);
@@ -48,7 +44,7 @@ namespace KeeperApp.Security
         {
             if (!IsKeyConfigured())
             {
-                throw new ArgumentNullException(nameof(key), "Encryption key cannot be empty");
+                throw new NullReferenceException("Encryption key cannot be empty");
             }
             string ivString = value.Split('.')[0];
             string encryptedData = value.Split('.')[1];

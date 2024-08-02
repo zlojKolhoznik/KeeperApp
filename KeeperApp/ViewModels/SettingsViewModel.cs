@@ -125,12 +125,12 @@ namespace KeeperApp.ViewModels
 
         private async Task EnableWindowsHello()
         {
-            IsWindowsHelloConnected = await signInManager.RegisterWindowsHelloAsync();
+            IsWindowsHelloConnected = await signInManager.ConnectWindowsHelloAsync();
         }
 
         private async Task DisableWindowsHello()
         {
-            IsWindowsHelloConnected = !await signInManager.UnregisterWindowsHello();
+            IsWindowsHelloConnected = !await signInManager.DisconnectWindowsHello();
         }
 
         private void ChangePassword()
@@ -158,16 +158,16 @@ namespace KeeperApp.ViewModels
 
         private async Task DeleteAccount()
         {
-            var recordsToDelete = dbContext.GetRecordsForUser(signInManager.CurrentUserName);
-            foreach (var record in recordsToDelete)
-            {
-                dbContext.Remove(record);
-            }
             if (signInManager.Unregister(signInManager.CurrentUserName, DeleteAccountPassword))
             {
-                if (await signInManager.IsWindowsHelloRegisteredAsync())
+                if (await signInManager.IsWindowsHelloConnectedAsync())
                 {
-                    await signInManager.UnregisterWindowsHello(true);
+                    await signInManager.DisconnectWindowsHello(true);
+                }
+                var recordsToDelete = dbContext.GetRecordsForUser(signInManager.CurrentUserName);
+                foreach (var record in recordsToDelete)
+                {
+                    dbContext.Remove(record);
                 }
                 await dbContext.SaveChangesAsync();
             }
@@ -176,7 +176,7 @@ namespace KeeperApp.ViewModels
         private async void CheckWindowsHello()
         {
             IsWindowsHelloAvailable = await WindowsHelloHelper.IsWindowsHelloAvailableAsync();
-            IsWindowsHelloConnected = await signInManager.IsWindowsHelloRegisteredAsync();
+            IsWindowsHelloConnected = await signInManager.IsWindowsHelloConnectedAsync();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace KeeperApp.Behaviors
             var result = false;
             if (args.IsSettingsInvoked)
             {
-                Frame.Navigate(typeof(SettingsPage));
+                result = Frame.Navigate(typeof(SettingsPage));
             }
             else if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag != null)
             {

@@ -48,7 +48,7 @@ namespace KeeperApp.ViewModels
             set => SetProperty(ref recordTitle, value);
         }
 
-        public string PageTitle => $"{resourceLoader.GetString("AddRecordTitle")}";
+        public string PageTitle => resourceLoader.GetString("AddRecordTitle");
         public string Save => resourceLoader.GetString("Save");
         public string Cancel => resourceLoader.GetString("Cancel");
         public string TitlePlaceholder => resourceLoader.GetString("Title");

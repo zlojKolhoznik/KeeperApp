@@ -42,6 +42,18 @@
                     <Flyout x:Name="Flyout">
                         <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" Height="130">
                             <StackPanel>
+                                <Button Content="{x:Bind ViewModel.AddFolderButtonLabel}" Padding="10" Margin="10" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                                    <interaction:Interaction.Behaviors>
+                                        <core:EventTriggerBehavior EventName="Click">
+                                            <behaviors:ShowAddRecordDialogAction>
+                                                <behaviors:ShowAddRecordDialogAction.Factory>
+                                                    <factoires:FolderViewsFactory/>
+                                                </behaviors:ShowAddRecordDialogAction.Factory>
+                                            </behaviors:ShowAddRecordDialogAction>
+                                            <core:CallMethodAction MethodName="Hide" TargetObject="{x:Bind Flyout}"/>
+                                        </core:EventTriggerBehavior>
+                                    </interaction:Interaction.Behaviors>
+                                </Button>
                                 <Button Content="{x:Bind ViewModel.AddLoginRecordButtonLabel}" Padding="10" Margin="10" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                                     <interaction:Interaction.Behaviors>
                                         <core:EventTriggerBehavior EventName="Click">
@@ -73,73 +85,76 @@
             </Button>
         </StackPanel>
         <ScrollViewer Grid.Row="1" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
-            <!-- We use TreeView here since it is planned to add folders in future -->
-            <TreeView ItemsSource="{x:Bind ViewModel.Records, Mode=OneWay}" Margin="0,20,0,0" x:Name="RecordsView">
+            <TreeView ItemsSource="{x:Bind ViewModel.Records.RootItems, Mode=OneWay}" Margin="0,20,0,0" x:Name="RecordsView">
                 <TreeView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="32"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image x:Name="Icon" Source="{Binding IconPath}" Height="32"/>
-                            <StackPanel RelativePanel.RightOf="Icon" BorderThickness="1,0,0,0" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" 
-                                    Margin="10,0,0,0" Padding="10,0,0,0" VerticalAlignment="Center" Grid.Column="1">
-                                <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="Bold"/>
-                                <TextBlock Text="{Binding Subtitle}" FontSize="14" Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"/>
-                            </StackPanel>
-                            <!-- This text block is used so empty space is clickable -->
-                            <TextBlock Grid.Column="2"/>
-                            <StackPanel Orientation="Horizontal" Grid.Column="3" Padding="5" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                <Button Padding="10" Margin="0,0,10,0" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" CornerRadius="20">
-                                    <SymbolIcon Symbol="Edit"/>
-                                    <interaction:Interaction.Behaviors>
-                                        <core:EventTriggerBehavior EventName="Click">
-                                            <behaviors:ShowRecordDetailsAction Frame="{Binding Data, Source={StaticResource DetailsContainerProxy}}" RecordId="{Binding Id}" 
-                                                                               Factory="{Binding Converter={StaticResource RecordTypeToViewFactoryConverter}}" EnableEditing="True"/>
-                                        </core:EventTriggerBehavior>
-                                    </interaction:Interaction.Behaviors>
-                                </Button>
-                                <Button Padding="10" Background="{ThemeResource SystemControlBackgroundAccentBrush}" CornerRadius="20">
-                                    <SymbolIcon Symbol="Delete"/>
-                                    <Button.Flyout>
-                                        <Flyout x:Name="ConfirmationFlyout">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto"/>
-                                                    <RowDefinition Height="auto"/>
-                                                </Grid.RowDefinitions>
-                                                <TextBlock Text="{Binding Data.DeleteRecordPrompt, Source={StaticResource ViewModelProxy}}" Margin="10"/>
-                                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <Button Content="{Binding Data.Yes, Source={StaticResource ViewModelProxy}}" Padding="10" Margin="10" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                                                        <interaction:Interaction.Behaviors>
-                                                            <core:EventTriggerBehavior EventName="Click">
-                                                                <core:InvokeCommandAction Command="{Binding Data.DeleteRecordCommand, Source={StaticResource ViewModelProxy}}" CommandParameter="{Binding}"/>
-                                                            </core:EventTriggerBehavior>
-                                                        </interaction:Interaction.Behaviors>
-                                                    </Button>
-                                                    <Button Content="{Binding Data.No, Source={StaticResource ViewModelProxy}}" Padding="10" Margin="10" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-                                                        <interaction:Interaction.Behaviors>
-                                                            <core:EventTriggerBehavior EventName="Click">
-                                                                <core:CallMethodAction TargetObject="{Binding ElementName=ConfirmationFlyout}" MethodName="Hide"/>
-                                                            </core:EventTriggerBehavior>
-                                                        </interaction:Interaction.Behaviors>
-                                                    </Button>
-                                                </StackPanel>
-                                            </Grid>
-                                        </Flyout>
-                                    </Button.Flyout>
-                                </Button>
-                            </StackPanel>
+                        <TreeViewItem ItemsSource="{Binding Children}">
                             <interaction:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="PointerPressed">
-                                    <behaviors:ShowRecordDetailsAction Frame="{Binding Data, Source={StaticResource DetailsContainerProxy}}" RecordId="{Binding Id}" 
-                                                                       Factory="{Binding Converter={StaticResource RecordTypeToViewFactoryConverter}}" EnableEditing="False"/>
-                                </core:EventTriggerBehavior>
+                                <behaviors:MainTreeDragAndDropBehavior/>
                             </interaction:Interaction.Behaviors>
-                        </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image x:Name="Icon" Source="{Binding Record.IconPath}" Height="32"/>
+                                <StackPanel Margin="10,0,0,0" Padding="10,0,0,0" VerticalAlignment="Center" Grid.Column="1">
+                                    <TextBlock Text="{Binding Record.Title}" FontSize="18" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Record.Subtitle}" FontSize="14" Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"/>
+                                </StackPanel>
+                                <!-- This text block is used so empty space is clickable -->
+                                <TextBlock Grid.Column="2"/>
+                                <StackPanel Orientation="Horizontal" Grid.Column="3" Padding="5" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                    <Button Padding="10" Margin="0,0,10,0" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" CornerRadius="20">
+                                        <SymbolIcon Symbol="Edit"/>
+                                        <interaction:Interaction.Behaviors>
+                                            <core:EventTriggerBehavior EventName="Click">
+                                                <behaviors:ShowRecordDetailsAction Frame="{Binding Data, Source={StaticResource DetailsContainerProxy}}" RecordId="{Binding Record.Id}" 
+                                                                               Factory="{Binding Record, Converter={StaticResource RecordTypeToViewFactoryConverter}}" EnableEditing="True"/>
+                                            </core:EventTriggerBehavior>
+                                        </interaction:Interaction.Behaviors>
+                                    </Button>
+                                    <Button Padding="10" Background="{ThemeResource SystemControlBackgroundAccentBrush}" CornerRadius="20">
+                                        <SymbolIcon Symbol="Delete"/>
+                                        <Button.Flyout>
+                                            <Flyout x:Name="ConfirmationFlyout">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Text="{Binding Data.DeleteRecordPrompt, Source={StaticResource ViewModelProxy}}" Margin="10"/>
+                                                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <Button Content="{Binding Data.Yes, Source={StaticResource ViewModelProxy}}" Padding="10" Margin="10" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                                                            <interaction:Interaction.Behaviors>
+                                                                <core:EventTriggerBehavior EventName="Click">
+                                                                    <core:InvokeCommandAction Command="{Binding Data.DeleteRecordCommand, Source={StaticResource ViewModelProxy}}" CommandParameter="{Binding Record}"/>
+                                                                </core:EventTriggerBehavior>
+                                                            </interaction:Interaction.Behaviors>
+                                                        </Button>
+                                                        <Button Content="{Binding Data.No, Source={StaticResource ViewModelProxy}}" Padding="10" Margin="10" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                                                            <interaction:Interaction.Behaviors>
+                                                                <core:EventTriggerBehavior EventName="Click">
+                                                                    <core:CallMethodAction TargetObject="{Binding ElementName=ConfirmationFlyout}" MethodName="Hide"/>
+                                                                </core:EventTriggerBehavior>
+                                                            </interaction:Interaction.Behaviors>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                    </Button>
+                                </StackPanel>
+                                <interaction:Interaction.Behaviors>
+                                    <core:EventTriggerBehavior EventName="PointerPressed">
+                                        <behaviors:ShowRecordDetailsAction Frame="{Binding Data, Source={StaticResource DetailsContainerProxy}}" RecordId="{Binding Record.Id}" 
+                                                                       Factory="{Binding Record, Converter={StaticResource RecordTypeToViewFactoryConverter}}" EnableEditing="False"/>
+                                    </core:EventTriggerBehavior>
+                                </interaction:Interaction.Behaviors>
+                            </Grid>
+                        </TreeViewItem>
                     </DataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>

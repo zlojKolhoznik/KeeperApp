@@ -1,4 +1,3 @@
-using KeeperApp.Records;
 using KeeperApp.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -24,14 +23,14 @@ namespace KeeperApp.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class HomePage : Page
+    public sealed partial class AddFolderDialog : ContentDialog
     {
-        public HomePage()
+        public AddFolderDialog()
         {
             this.InitializeComponent();
-            ViewModel = App.Current.Services.GetService<HomeViewModel>();
+            ViewModel = App.Current.Services.GetService<AddFolderViewModel>();
         }
 
-        public HomeViewModel ViewModel { get; set; }
+        public AddFolderViewModel ViewModel { get; set; }
     }
 }

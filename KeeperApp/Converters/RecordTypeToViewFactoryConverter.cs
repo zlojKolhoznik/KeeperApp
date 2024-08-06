@@ -29,6 +29,10 @@ namespace KeeperApp.Converters
             {
                 factory = new CardCredentialsRecordViewsFactory();
             }
+            else if (value is Folder)
+            {
+                factory = new FolderViewsFactory();
+            }
             return factory;
         }
 

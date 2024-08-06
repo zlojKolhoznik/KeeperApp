@@ -123,6 +123,9 @@
   <data name="AddRecordTitle" xml:space="preserve">
     <value>Створити новий запис</value>
   </data>
+  <data name="AddToFolderConfirmation" xml:space="preserve">
+    <value>Цей запис вже знаходиться у папці '{0}'. Ви точно хочете перемістити його у папку '{1}'?</value>
+  </data>
   <data name="AnalyzePasswordsLabel" xml:space="preserve">
     <value>Проаналізувати паролі</value>
   </data>
@@ -183,6 +186,9 @@
   <data name="ExpiryDate" xml:space="preserve">
     <value>Термін дії</value>
   </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Папка</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Головна</value>
   </data>
@@ -236,6 +242,9 @@
   </data>
   <data name="PasswordMismatch" xml:space="preserve">
     <value>Паролі не співпадають</value>
+  </data>
+  <data name="Records" xml:space="preserve">
+    <value>Записи</value>
   </data>
   <data name="RegisterLink" xml:space="preserve">
     <value>Ще не маєте облікового запису? Зареєструйтесь!</value>

@@ -14,6 +14,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\card.png" />
+    <Content Remove="Assets\folder.png" />
     <Content Remove="Assets\generate.png" />
     <Content Remove="Assets\person.png" />
     <Content Remove="Assets\record.png" />
@@ -25,8 +26,10 @@
     <None Remove="Controls\PasswordBoxWithGenerator.xaml" />
     <None Remove="SignInWindow.xaml" />
     <None Remove="Views\AddCardCredentialsDialog.xaml" />
+    <None Remove="Views\AddFolderDialog.xaml" />
     <None Remove="Views\AddLoginDialog.xaml" />
     <None Remove="Views\CardCredentialsRecordDetailsPage.xaml" />
+    <None Remove="Views\FolderDetailsPage.xaml" />
     <None Remove="Views\HomePage.xaml" />
     <None Remove="Views\LoginRecordDetailsPage.xaml" />
     <None Remove="Views\PasswordAnalysisPage.xaml" />
@@ -75,6 +78,9 @@
     <None Update="Assets\card.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\folder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\generate.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -87,6 +93,12 @@
     <None Update="Assets\WindowsHello.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\FolderDetailsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\AddFolderDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\CardCredentialsRecordDetailsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

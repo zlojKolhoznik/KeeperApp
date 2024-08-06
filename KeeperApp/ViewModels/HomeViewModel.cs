@@ -4,8 +4,8 @@ using CommunityToolkit.Mvvm.Messaging;
 using KeeperApp.Authentication;
 using KeeperApp.Database;
 using KeeperApp.Messaging;
+using KeeperApp.Models;
 using KeeperApp.Records;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.ApplicationModel.Resources;
 
@@ -15,24 +15,20 @@ namespace KeeperApp.ViewModels
     {
         private readonly KeeperDbContext dbContext;
         private readonly ResourceLoader resourceLoader;
-        private ObservableCollection<Record> records;
+        private RecordTree records;
 
         public HomeViewModel(KeeperDbContext dbContext, SignInManager signInManager)
         {
             this.dbContext = dbContext;
             resourceLoader = new ResourceLoader();
-            Records = new ObservableCollection<Record>(dbContext.GetRecordsForUser(signInManager.CurrentUserName).OrderByDescending(r => r.Created));
-            WeakReferenceMessenger.Default.Register<HomeViewModel, RecordMessage>(this, (r, m) => r.Receive(m));
-        }
-
-        public ObservableCollection<Record> Records
-        {
-            get => records;
-            set
+            var records = dbContext.GetRecordsForUser(signInManager.CurrentUserName).OrderByDescending(r => r.Created);
+            Records = new RecordTree(records);
+            Records.StructureChanged += (p, r) =>
             {
-                records = value;
-                OnPropertyChanged();
-            }
+                r.ParentId = p?.Id;
+                dbContext.SaveChanges();
+            };
+            WeakReferenceMessenger.Default.Register<HomeViewModel, RecordMessage>(this, (r, m) => r.Receive(m));
         }
 
         public RelayCommand<Record> DeleteRecordCommand => new(DeleteRecord);
@@ -44,6 +40,13 @@ namespace KeeperApp.ViewModels
         public string No => resourceLoader.GetString("No");
         public string AddLoginRecordButtonLabel => resourceLoader.GetString("LoginRecord");
         public string AddtCardCredentialsRecordButtonLabel => resourceLoader.GetString("CardCredentialsRecord");
+        public string AddFolderButtonLabel => resourceLoader.GetString("Folder");
+
+        public RecordTree Records
+        {
+            get => records; 
+            set => SetProperty(ref records, value); 
+        }
 
         public void DeleteRecord(Record record)
         {
@@ -57,18 +60,15 @@ namespace KeeperApp.ViewModels
             switch (message.MesasgeType)
             {
                 case RecordMessageType.Added:
-                    Records.Add(message.Record);
+                    Records.Insert(message.Record);
                     break;
                 case RecordMessageType.Deleted:
-                    var recordToDelete = Records.FirstOrDefault(r => r.Id == message.Record.Id);
-                    Records.Remove(recordToDelete);
+                    Records.Remove(message.Record);
                     break;
                 case RecordMessageType.Updated:
-                    var recordIndex = Records.IndexOf(Records.FirstOrDefault(r => r.Id == message.Record.Id));
-                    Records[recordIndex] = message.Record;
+                    Records.UpdateLocation(message.Record);
                     break;
             }
-            Records = new ObservableCollection<Record>(Records.OrderByDescending(r => r.Created));
         }
     }
 }

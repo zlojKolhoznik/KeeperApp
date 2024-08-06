@@ -29,6 +29,10 @@ public abstract class Record : ObservableObject
     public abstract string IconPath { get; set; }
     [Hidden]
     public abstract string Subtitle { get; }
+    [Hidden]
+    public int? ParentId { get; set; }
+    [Hidden]
+    public Folder? Parent { get; set; }
 
     [EncryptProperty, RequiredProperty]
     public string Title

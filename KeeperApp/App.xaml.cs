@@ -3,6 +3,7 @@ using Easy_Password_Validator.Models;
 using KeeperApp.Authentication;
 using KeeperApp.Database;
 using KeeperApp.Security;
+using KeeperApp.UserInteraction;
 using KeeperApp.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -33,6 +34,8 @@ namespace KeeperApp
             signInManager.UserSignedOut += SignInManager_UserSignedOut;
             this.InitializeComponent();
         }
+
+        public XamlRoot MainXamlRoot => m_window.Content.XamlRoot;
 
         public string Language
         {
@@ -75,12 +78,15 @@ namespace KeeperApp
             services.AddTransient<MainViewModel>();
             services.AddTransient<HomeViewModel>();
             services.AddTransient<AddLoginViewModel>();
+            services.AddTransient<AddFolderViewModel>();
             services.AddTransient<AddCardCredentialsViewModel>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<LoginInfoViewModel>();
+            services.AddTransient<FolderInfoViewModel>();
             services.AddTransient<CardCredentialsInfoViewModel>();
             services.AddTransient<SignInViewModel>();
             services.AddTransient<PasswordAnalysisViewModel>();
+            services.AddTransient<IUserInteractionService, ContentDialogService>();
             services.AddTransient(service => new PasswordValidatorService(new PasswordRequirements()));
             services.AddSingleton<SignInManager>();
             services.AddDbContext<KeeperDbContext>();

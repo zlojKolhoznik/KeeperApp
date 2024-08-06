@@ -14,6 +14,7 @@ namespace KeeperApp.Database
 
         public DbSet<LoginRecord> Logins { get; set; }
         public DbSet<CardCredentialsRecord> CardCredentials { get; set; }
+        public DbSet<Folder> Folders { get; set; }
 
         public KeeperDbContext() : base()
         {
@@ -25,6 +26,7 @@ namespace KeeperApp.Database
         public IEnumerable<Record> GetRecordsForUser(string username)
         {
             List<Record> records = [.. Logins.Cast<Record>(),
+                .. Folders.Cast<Record>(),
                 .. CardCredentials.Cast<Record>()];
             return records.Where(r => r.OwnerUsernameHash == Sha256Hasher.GetSaltedHash(username, r.Created.ToString()));
         }
@@ -39,6 +41,7 @@ namespace KeeperApp.Database
         {
             modelBuilder.Entity<LoginRecord>().HasEncryption();
             modelBuilder.Entity<CardCredentialsRecord>().HasEncryption();
+            modelBuilder.Entity<Folder>().HasEncryption();
             base.OnModelCreating(modelBuilder);
         }
     }

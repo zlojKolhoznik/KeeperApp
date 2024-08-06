@@ -123,6 +123,9 @@
   <data name="AddRecordTitle" xml:space="preserve">
     <value>Create new record</value>
   </data>
+  <data name="AddToFolderConfirmation" xml:space="preserve">
+    <value>This record is already in folder '{0}'. Do you want to move it to '{1}'?</value>
+  </data>
   <data name="AnalyzePasswordsLabel" xml:space="preserve">
     <value>Analyze passwords</value>
   </data>
@@ -183,6 +186,9 @@
   <data name="ExpiryDate" xml:space="preserve">
     <value>Expiry date</value>
   </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
@@ -236,6 +242,9 @@
   </data>
   <data name="PasswordMismatch" xml:space="preserve">
     <value>Passwords do not match</value>
+  </data>
+  <data name="Records" xml:space="preserve">
+    <value>Records</value>
   </data>
   <data name="RegisterLink" xml:space="preserve">
     <value>Don't have an account? Register!</value>

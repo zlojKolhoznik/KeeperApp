@@ -1,4 +1,4 @@
-using KeeperApp.Records;
+using KeeperApp.Models;
 using KeeperApp.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -24,14 +24,22 @@ namespace KeeperApp.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class HomePage : Page
+    public sealed partial class FolderDetailsPage : Page
     {
-        public HomePage()
+        public FolderDetailsPage()
         {
             this.InitializeComponent();
-            ViewModel = App.Current.Services.GetService<HomeViewModel>();
+            ViewModel = App.Current.Services.GetService<FolderInfoViewModel>();
         }
 
-        public HomeViewModel ViewModel { get; set; }
+        public FolderInfoViewModel ViewModel { get; set; }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            DetailsPageConfig config = (DetailsPageConfig)e.Parameter;
+            ViewModel.SetRecordById(config.RecordId);
+            ViewModel.ReadOnlyMode = !config.EnableEditing;
+        }
     }
 }

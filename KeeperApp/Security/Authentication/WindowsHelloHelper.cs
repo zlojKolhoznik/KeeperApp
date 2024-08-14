@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Windows.Security.Credentials;
 using Windows.Security.Credentials.UI;
 
-namespace KeeperApp.Authentication
+namespace KeeperApp.Security.Authentication
 {
     public static class WindowsHelloHelper
     {
@@ -60,13 +60,13 @@ namespace KeeperApp.Authentication
             return username;
         }
 
-        public static string GetConnectedAccount() 
+        public static string GetConnectedAccount()
         {
             string username;
             try
             {
-                username = File.ReadAllText(windowsHelloAccountFilePath); 
-            } 
+                username = File.ReadAllText(windowsHelloAccountFilePath);
+            }
             catch (IOException)
             {
                 username = null;
@@ -77,7 +77,7 @@ namespace KeeperApp.Authentication
         public static async Task<bool> DeleteKeyAsync(string username, bool skipConfirmation = false)
         {
             bool keyExists = (await KeyCredentialManager.OpenAsync(username)).Status == KeyCredentialStatus.Success;
-            bool confirmedByUser = skipConfirmation 
+            bool confirmedByUser = skipConfirmation
                 || (await UserConsentVerifier.RequestVerificationAsync("Are you sure you want to delete your Windows Hello account?")).Equals(UserConsentVerificationResult.Verified);
             bool success = keyExists && confirmedByUser;
             if (success)

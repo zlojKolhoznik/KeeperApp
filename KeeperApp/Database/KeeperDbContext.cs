@@ -15,6 +15,7 @@ namespace KeeperApp.Database
         public DbSet<LoginRecord> Logins { get; set; }
         public DbSet<CardCredentialsRecord> CardCredentials { get; set; }
         public DbSet<Folder> Folders { get; set; }
+        public DbSet<UserInfo> Users { get; set; }
 
         public KeeperDbContext() : base()
         {
@@ -42,6 +43,7 @@ namespace KeeperApp.Database
             modelBuilder.Entity<LoginRecord>().HasEncryption();
             modelBuilder.Entity<CardCredentialsRecord>().HasEncryption();
             modelBuilder.Entity<Folder>().HasEncryption();
+            modelBuilder.Entity<UserInfo>().HasEncryption();
             base.OnModelCreating(modelBuilder);
         }
     }

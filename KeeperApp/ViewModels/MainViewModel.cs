@@ -1,13 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KeeperApp.Authentication;
-using KeeperApp.Records;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KeeperApp.Security.Authentication;
+using Microsoft.UI.Xaml;
 using Windows.ApplicationModel.Resources;
 
 namespace KeeperApp.ViewModels
@@ -21,6 +15,7 @@ namespace KeeperApp.ViewModels
         {
             this.signInManager = signInManager;
             resourceLoader = new ResourceLoader();
+            signInManager.EmailConfirmationStatusChanged += (s, e) => OnPropertyChanged(nameof(SettingsInfoBadgeVisibility));
         }
 
         public string Username => signInManager.CurrentUserName;
@@ -29,6 +24,8 @@ namespace KeeperApp.ViewModels
         public string Exit => resourceLoader.GetString("Exit");
         public string SignOut => resourceLoader.GetString("SignOut");
         public string PasswordAnalysis => resourceLoader.GetString("PasswordAnalysis");
+        public string Settings => resourceLoader.GetString("Settings");
+        public Visibility SettingsInfoBadgeVisibility => signInManager.IsEmailConfirmed ? Visibility.Collapsed : Visibility.Visible;
 
         public RelayCommand ExitCommand => new(App.Current.Exit);
 

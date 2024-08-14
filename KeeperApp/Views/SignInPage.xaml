@@ -45,5 +45,15 @@
                 </core:EventTriggerBehavior>
             </interaction:Interaction.Behaviors>
         </HyperlinkButton>
+        <HyperlinkButton HorizontalAlignment="Center">
+            <TextBlock Text="{Binding ForgotPasswordLabel}"
+                       FontSize="14"
+                       TextDecorations="Underline"/>
+            <interaction:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="Click">
+                    <core:NavigateToPageAction TargetPage="KeeperApp.Views.ForgotPasswordPage"/>
+                </core:EventTriggerBehavior>
+            </interaction:Interaction.Behaviors>
+        </HyperlinkButton>
     </StackPanel>
 </Page>

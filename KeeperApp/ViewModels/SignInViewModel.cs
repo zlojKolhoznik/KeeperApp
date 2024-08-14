@@ -1,11 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KeeperApp.Authentication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KeeperApp.Security.Authentication;
 using Windows.ApplicationModel.Resources;
 
 namespace KeeperApp.ViewModels
@@ -36,6 +31,7 @@ namespace KeeperApp.ViewModels
         public string RegisterVerb => resourceLoader.GetString("RegisterVerb");
         public string RegisterLink => resourceLoader.GetString("RegisterLink");
         public string SignInExistingAccount => resourceLoader.GetString("SignInExistingAccount");
+        public string ForgotPasswordLabel => resourceLoader.GetString("ForgotPassword");
 
         public string Username
         {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 
-namespace KeeperApp.UserInteraction
+namespace KeeperApp.Services
 {
     internal class ContentDialogService : IUserInteractionService
     {

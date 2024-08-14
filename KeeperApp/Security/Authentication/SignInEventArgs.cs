@@ -1,8 +1,8 @@
-﻿namespace KeeperApp.Authentication
+﻿namespace KeeperApp.Security.Authentication
 {
     public class SignInEventArgs
     {
-        public SignInEventArgs(string username) 
+        public SignInEventArgs(string username)
         {
             Username = username;
         }

@@ -31,6 +31,19 @@
                     <behaviors:LanguageSelectorBehavior/>
                 </interaction:Interaction.Behaviors>
             </ComboBox>
+            <TextBlock FontSize="20" Margin="10" Text="Email"/>
+            <TextBlock FontSize="14" Text="{Binding EmailConfirmationDescription}" Margin="10"/>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBox Width="260" Margin="0,5,15,10" Text="{Binding Email, Mode=TwoWay}"/>
+                <Button Content="{Binding Save}" Margin="10,5,15,10" Command="{Binding SaveEmailCommand}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10" Visibility="{Binding IsEmailConfirmationActive, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBox Width="260" Margin="0,5,15,10" Text="{Binding EmailConfirmation, Mode=TwoWay}" PlaceholderText="{Binding ConfirmationCodePlaceholder}"/>
+                <Button Content="{Binding Confirm}" Margin="10,5,15,10" Command="{Binding ConfirmEmailCommand}"/>
+            </StackPanel>
+            <TextBlock FontSize="10" Foreground="Red" Margin="10" Text="{Binding EmailConfirmationError}"/>
+            <TextBlock FontSize="10" Foreground="Orange" Margin="10" Text="You haven't confirmed your email yet. Consider doing it now in order to be able to reset password when necessary."
+                       Visibility="{Binding IsEmailConfirmed, Converter={StaticResource ReversedBoolToVisibilityConverter}}"/>
             <TextBlock FontSize="20" Text="Windows Hello" Margin="10"/>
             <TextBlock FontSize="14" Text="{Binding WindwsHelloDescription}" Margin="10"/>
             <Button Margin="10"  Content="{Binding EnableWindowsHelloLabel}" 

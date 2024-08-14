@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using KeeperApp.Authentication;
 using KeeperApp.Database;
 using KeeperApp.Messaging;
 using KeeperApp.Records;
-using KeeperApp.UserInteraction;
+using KeeperApp.Security.Authentication;
+using KeeperApp.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;

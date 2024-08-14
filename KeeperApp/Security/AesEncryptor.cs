@@ -11,13 +11,13 @@ namespace KeeperApp.Security
     {
         private static string key;
 
-        public static void ConfigureKey(string keySource)
+        public static void SetKey(string keySource)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(keySource, nameof(keySource));
             key = Sha256Hasher.GetHash(keySource);
         }
 
-        public static void UnconfigureKey()
+        public static void ClearKey()
         {
             key = string.Empty;
         }

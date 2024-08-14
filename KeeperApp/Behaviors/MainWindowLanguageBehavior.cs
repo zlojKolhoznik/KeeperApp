@@ -45,7 +45,6 @@ namespace KeeperApp.Behaviors
                     navigationViewItem.Content = resourceLoader.GetString(navigationViewItem.Name);
                 }
             }
-            ((NavigationViewItem)Navbar.SettingsItem).Content = resourceLoader.GetString("Settings");
         }
     }
 }

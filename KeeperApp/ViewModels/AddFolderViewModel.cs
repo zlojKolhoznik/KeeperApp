@@ -1,6 +1,6 @@
-﻿using KeeperApp.Authentication;
-using KeeperApp.Database;
+﻿using KeeperApp.Database;
 using KeeperApp.Records;
+using KeeperApp.Security.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;

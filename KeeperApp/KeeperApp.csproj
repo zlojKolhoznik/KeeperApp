@@ -30,6 +30,7 @@
     <None Remove="Views\AddLoginDialog.xaml" />
     <None Remove="Views\CardCredentialsRecordDetailsPage.xaml" />
     <None Remove="Views\FolderDetailsPage.xaml" />
+    <None Remove="Views\ForgotPasswordPage.xaml" />
     <None Remove="Views\HomePage.xaml" />
     <None Remove="Views\LoginRecordDetailsPage.xaml" />
     <None Remove="Views\PasswordAnalysisPage.xaml" />
@@ -52,6 +53,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
     <PackageReference Include="Easy.Password.Validator" Version="1.2.4" />
+    <PackageReference Include="MailKit" Version="4.7.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
@@ -93,6 +95,9 @@
     <None Update="Assets\WindowsHello.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ForgotPasswordPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\FolderDetailsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

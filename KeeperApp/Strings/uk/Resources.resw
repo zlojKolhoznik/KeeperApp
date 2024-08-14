@@ -144,6 +144,15 @@
   <data name="ChangeMasterPassword" xml:space="preserve">
     <value>Змінити головний пароль</value>
   </data>
+  <data name="Code" xml:space="preserve">
+    <value>Код</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Підтвердити</value>
+  </data>
+  <data name="ConfirmationCode" xml:space="preserve">
+    <value>Код підтвердження з вашої скриньки</value>
+  </data>
   <data name="ConfirmNewPassword" xml:space="preserve">
     <value>Підтвердіть новий пароль</value>
   </data>
@@ -177,6 +186,9 @@
   <data name="DisableWindowsHello" xml:space="preserve">
     <value>Відключити WIndows Hello для цього облікового запису</value>
   </data>
+  <data name="EmailConfirmationDescription" xml:space="preserve">
+    <value>Введіть та підтвердіть адресу електронної пошти, щоб мати змогу відновити пароль у випадку, якщо ви його забудете.</value>
+  </data>
   <data name="EnableWindowsHello" xml:space="preserve">
     <value>Підключити Windows Hello для цього облікового запису</value>
   </data>
@@ -189,11 +201,17 @@
   <data name="Folder" xml:space="preserve">
     <value>Папка</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Забули пароль?</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Головна</value>
   </data>
   <data name="IncorrectPassword" xml:space="preserve">
     <value>Неправильний пароль</value>
+  </data>
+  <data name="InvalidCode" xml:space="preserve">
+    <value>Неправильний код, спробуйте ще раз</value>
   </data>
   <data name="InvalidRegister" xml:space="preserve">
     <value>Обліковий запис з цим іменем користувача вже існує. Увійдіть в нього або використайте інше ім'я користувача</value>
@@ -243,6 +261,15 @@
   <data name="PasswordMismatch" xml:space="preserve">
     <value>Паролі не співпадають</value>
   </data>
+  <data name="PasswordResetCodeHeader" xml:space="preserve">
+    <value>Код відновлення було надіслано на скриньку {0}. Він буде дійсний до {1}. Після отримання, введіть його в поле на цій сторінці</value>
+  </data>
+  <data name="PasswordResetUsernameHeader" xml:space="preserve">
+    <value>Введіть ім'я облікового запису, від якого необхідно відновити пароль</value>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>Продовжити</value>
+  </data>
   <data name="Records" xml:space="preserve">
     <value>Записи</value>
   </data>
@@ -257,6 +284,9 @@
   </data>
   <data name="RequiredFieldsPrompt" xml:space="preserve">
     <value>Будь ласка, заповність всі обов'язкові поля</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Скинути пароль</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Зберегти</value>
@@ -284,6 +314,9 @@
   </data>
   <data name="Username" xml:space="preserve">
     <value>Ім'я користувача</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Облікового запису з таким ім'ям не існує</value>
   </data>
   <data name="WindowsHelloUnaccessible" xml:space="preserve">
     <value>Щоб вхід за допомогою Windows Hello був доступним, увімкніть Windows Hello в параметрах системи і перезавантажте цю сторінку</value>

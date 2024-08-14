@@ -144,6 +144,15 @@
   <data name="ChangeMasterPassword" xml:space="preserve">
     <value>Change master password</value>
   </data>
+  <data name="Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConfirmationCode" xml:space="preserve">
+    <value>Confirmation code from your inbox</value>
+  </data>
   <data name="ConfirmNewPassword" xml:space="preserve">
     <value>Confirm new password</value>
   </data>
@@ -177,6 +186,9 @@
   <data name="DisableWindowsHello" xml:space="preserve">
     <value>Disable WIndows Hello for this account</value>
   </data>
+  <data name="EmailConfirmationDescription" xml:space="preserve">
+    <value>Enter and confirm your email to be able to reset your password in case you forgot it.</value>
+  </data>
   <data name="EnableWindowsHello" xml:space="preserve">
     <value>Enable Windows Hello for this account</value>
   </data>
@@ -189,11 +201,17 @@
   <data name="Folder" xml:space="preserve">
     <value>Folder</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
   <data name="IncorrectPassword" xml:space="preserve">
     <value>Incorrect password</value>
+  </data>
+  <data name="InvalidCode" xml:space="preserve">
+    <value>Invalid code. Please try again</value>
   </data>
   <data name="InvalidRegister" xml:space="preserve">
     <value>There is already an account with this username. Log in to existing account or try another username</value>
@@ -243,6 +261,15 @@
   <data name="PasswordMismatch" xml:space="preserve">
     <value>Passwords do not match</value>
   </data>
+  <data name="PasswordResetCodeHeader" xml:space="preserve">
+    <value>The recovery code was sent to {0}. It is valid untill {1}, upon receival, enter the code on this page.</value>
+  </data>
+  <data name="PasswordResetUsernameHeader" xml:space="preserve">
+    <value>Enter username of account to reset password from</value>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>Proceed</value>
+  </data>
   <data name="Records" xml:space="preserve">
     <value>Records</value>
   </data>
@@ -257,6 +284,9 @@
   </data>
   <data name="RequiredFieldsPrompt" xml:space="preserve">
     <value>Please fill in all required fields</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset password</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
@@ -284,6 +314,9 @@
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Account with such username does not exist</value>
   </data>
   <data name="WindowsHelloUnaccessible" xml:space="preserve">
     <value>To enable Windows Hello login, turn on Windows Hello in System Settings and reload this page</value>

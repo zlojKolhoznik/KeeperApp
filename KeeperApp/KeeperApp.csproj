@@ -28,11 +28,13 @@
     <None Remove="Views\AddCardCredentialsDialog.xaml" />
     <None Remove="Views\AddFolderDialog.xaml" />
     <None Remove="Views\AddLoginDialog.xaml" />
+    <None Remove="Views\AuthenticationContainerPage.xaml" />
     <None Remove="Views\CardCredentialsRecordDetailsPage.xaml" />
     <None Remove="Views\FolderDetailsPage.xaml" />
     <None Remove="Views\ForgotPasswordPage.xaml" />
     <None Remove="Views\HomePage.xaml" />
     <None Remove="Views\LoginRecordDetailsPage.xaml" />
+    <None Remove="Views\MainContainerPage.xaml" />
     <None Remove="Views\PasswordAnalysisPage.xaml" />
     <None Remove="Views\RegisterPage.xaml" />
     <None Remove="Views\SettingsPage.xaml" />
@@ -95,6 +97,12 @@
     <None Update="Assets\WindowsHello.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\MainContainerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\AuthenticationContainerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\ForgotPasswordPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

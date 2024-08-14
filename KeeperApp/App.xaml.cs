@@ -5,8 +5,10 @@ using KeeperApp.Security;
 using KeeperApp.Security.Authentication;
 using KeeperApp.Services;
 using KeeperApp.ViewModels;
+using KeeperApp.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.Globalization;
 
@@ -53,19 +55,15 @@ namespace KeeperApp
         private void SignInManager_UserSignedOut(object sender, SignInEventArgs e)
         {
             AesEncryptor.ClearKey();
-            var currentWindow = m_window;
-            m_window = new SignInWindow();
-            m_window.Activate();
-            currentWindow.Close();
+            var frame = m_window.Content as Frame;
+            frame?.Navigate(typeof(AuthenticationContainerPage));
         }
 
         private void SignInManager_UserSignedIn(object sender, SignInEventArgs e)
         { 
             AesEncryptor.SetKey(e.Username);
-            var currentWindow = m_window;
-            m_window = new MainWindow();
-            m_window.Activate();
-            currentWindow.Close();
+            var frame = m_window.Content as Frame;
+            frame?.Navigate(typeof(MainContainerPage));
         }
 
         public new static App Current => (App)Application.Current;
@@ -101,7 +99,9 @@ namespace KeeperApp
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            m_window = new SignInWindow();
+            m_window = new MainWindow();
+            var frame = m_window.Content as Frame;
+            frame?.Navigate(typeof(AuthenticationContainerPage));
             m_window.Activate();
         }
 

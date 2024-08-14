@@ -13,48 +13,5 @@
     xmlns:converters="using:KeeperApp.Converters"
     mc:Ignorable="d">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <NavigationView x:Name="Navbar" PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" 
-                        IsPaneOpen="False" Grid.Row="1" OpenPaneLength="250" IsSettingsVisible="False">
-            <NavigationView.MenuItems>
-                <NavigationViewItemHeader Content="{x:Bind ViewModel.Username}"/>
-                <NavigationViewItem Icon="BlockContact" Content="{x:Bind ViewModel.SignOut}" x:Name="SignOut">
-                    <interaction:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.SignOutCommand}"/>
-                        </core:EventTriggerBehavior>
-                    </interaction:Interaction.Behaviors>
-                </NavigationViewItem>
-                <NavigationViewItem x:Name="Settings" Content="{x:Bind ViewModel.Settings}" Icon="Setting" Tag="KeeperApp.Views.SettingsPage">
-                    <NavigationViewItem.InfoBadge>
-                        <InfoBadge Style="{ThemeResource CautionDotInfoBadgeStyle}" Visibility="{x:Bind ViewModel.SettingsInfoBadgeVisibility, Mode=OneWay}"/>
-                    </NavigationViewItem.InfoBadge>
-                </NavigationViewItem>
-                <NavigationViewItemSeparator/>
-                <NavigationViewItem x:Name="Home" Content="{x:Bind ViewModel.Home}" Icon="Home" Tag="KeeperApp.Views.HomePage" IsSelected="True" SelectsOnInvoked="True"/>
-                <NavigationViewItem x:Name="PasswordAnalysis" Content="{x:Bind ViewModel.PasswordAnalysis}" Icon="Permissions" Tag="KeeperApp.Views.PasswordAnalysisPage" IsSelected="True" SelectsOnInvoked="True"/>
-            </NavigationView.MenuItems>
-            <NavigationView.PaneFooter>
-                <NavigationViewItem x:Name="Exit" Content="{x:Bind ViewModel.Exit}" Icon="Cancel">
-                    <interaction:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.ExitCommand}"/>
-                        </core:EventTriggerBehavior>
-                    </interaction:Interaction.Behaviors>
-                </NavigationViewItem>
-            </NavigationView.PaneFooter>
-            <Frame x:Name="ContentFrame"/>
-            <interaction:Interaction.Behaviors>
-                <core:EventTriggerBehavior EventName="ItemInvoked">
-                    <customBehaviors:MainWindowNavigateAction Frame="{x:Bind ContentFrame}"/>
-                </core:EventTriggerBehavior>
-                <customBehaviors:MainWindowLanguageBehavior Navbar="{x:Bind Navbar, Mode=OneWay}"/>
-            </interaction:Interaction.Behaviors>
-        </NavigationView>
-    </Grid>
+    <Frame/>
 </Window>

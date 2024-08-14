@@ -28,13 +28,9 @@ namespace KeeperApp
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        public MainViewModel ViewModel { get; }
-
         public MainWindow()
         {
             this.InitializeComponent();
-            ViewModel = App.Current.Services.GetService<MainViewModel>();
-            ContentFrame.Navigate(typeof(HomePage));
         }
     }
 }

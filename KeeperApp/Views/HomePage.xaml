@@ -24,13 +24,23 @@
     <Grid Padding="20" x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Padding="10" Width="auto" Grid.ColumnSpan="2"
+        <StackPanel Orientation="Horizontal" Padding="10">
+            <AutoSuggestBox PlaceholderText="Search" QueryIcon="Find" Width="800" x:Name="SearchBox">
+                <interaction:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="QuerySubmitted">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchCommand, Mode=OneWay}" CommandParameter="{x:Bind SearchBox.Text, Mode=OneWay}"/>
+                    </core:EventTriggerBehavior>
+                </interaction:Interaction.Behaviors>
+            </AutoSuggestBox>
+        </StackPanel>
+        <StackPanel Padding="10" Width="auto" Grid.ColumnSpan="2" Grid.Row="1"
                     Orientation="Horizontal" VerticalAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}">
             <TextBlock Text="{x:Bind ViewModel.Title}" FontSize="24"/>
             <Button Margin="15,0,0,0" Padding="10" Background="{ThemeResource SystemColorControlAccentColor}" CornerRadius="20">
@@ -84,7 +94,7 @@
                 </Button.Flyout>
             </Button>
         </StackPanel>
-        <ScrollViewer Grid.Row="1" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
+        <ScrollViewer Grid.Row="2" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
             <TreeView ItemsSource="{x:Bind ViewModel.Records.RootItems, Mode=OneWay}" Margin="0,20,0,0" x:Name="RecordsView">
                 <TreeView.ItemTemplate>
                     <DataTemplate>
@@ -159,6 +169,6 @@
                 </TreeView.ItemTemplate>
             </TreeView>
         </ScrollViewer>
-        <Frame Grid.Column="1" Grid.Row="1" x:Name="DetailsContainer"/>
+        <Frame Grid.Column="1" Grid.Row="2" x:Name="DetailsContainer"/>
     </Grid>
 </Page>

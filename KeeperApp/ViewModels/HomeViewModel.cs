@@ -14,12 +14,14 @@ namespace KeeperApp.ViewModels
     public class HomeViewModel : ObservableRecipient, IRecipient<RecordMessage>
     {
         private readonly KeeperDbContext dbContext;
+        private readonly SignInManager signInManager;
         private readonly ResourceLoader resourceLoader;
         private RecordTree records;
 
         public HomeViewModel(KeeperDbContext dbContext, SignInManager signInManager)
         {
             this.dbContext = dbContext;
+            this.signInManager = signInManager;
             resourceLoader = new ResourceLoader();
             var records = dbContext.GetRecordsForUser(signInManager.CurrentUserName).OrderByDescending(r => r.Created);
             Records = new RecordTree(records);
@@ -32,6 +34,7 @@ namespace KeeperApp.ViewModels
         }
 
         public RelayCommand<Record> DeleteRecordCommand => new(DeleteRecord);
+        public RelayCommand<string> SearchCommand => new(Search);
 
         public string Title => resourceLoader.GetString("KeeperVault");
         public string AddRecordButtonLabel => resourceLoader.GetString("AddRecord");
@@ -69,6 +72,11 @@ namespace KeeperApp.ViewModels
                     Records.UpdateLocation(message.Record);
                     break;
             }
+        }
+
+        public void Search(string query)
+        {
+            Records = string.IsNullOrWhiteSpace(query) ? new RecordTree(dbContext.GetRecordsForUser(signInManager.CurrentUserName)) : new RecordTree(Records.SearchByTitle(query), true);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using FuzzySharp;
 using KeeperApp.Records;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,9 +14,9 @@ namespace KeeperApp.Models
         public event StructureChangedEventHandler StructureChanged;
         private ObservableCollection<RecordTreeItem> rootItems;
 
-        public RecordTree(IEnumerable<Record> source)
+        public RecordTree(IEnumerable<Record> source, bool ignoreParents = false)
         {
-            RootItems = ConvertToTree(source);
+            RootItems = ConvertToTree(source, ignoreParents);
         }
 
         public ObservableCollection<RecordTreeItem> RootItems
@@ -24,9 +25,37 @@ namespace KeeperApp.Models
             set => SetProperty(ref rootItems, value);
         }
 
-        private ObservableCollection<RecordTreeItem> ConvertToTree(IEnumerable<Record> source)
+        public ObservableCollection<Record> SearchByTitle(string title)
         {
-            var result = new ObservableCollection<RecordTreeItem>(source.Where(r => r.ParentId is null)
+            return new ObservableCollection<Record>(SearchByTitle(RootItems, title).Select(i => i.Record));
+        }
+
+        private ObservableCollection<RecordTreeItem> SearchByTitle(ObservableCollection<RecordTreeItem> root, string title)
+        {
+            var result = new ObservableCollection<RecordTreeItem>();
+            foreach (var item in root)
+            {
+                double ratio = Fuzz.PartialRatio(item.Record.Title, title) / 100.0;
+                ratio *= Fuzz.PartialTokenSortRatio(item.Record.Title, title) / 100.0;
+                if (ratio > .6)
+                {
+                    result.Add(item);
+                }
+                if (item.Children is not null)
+                {
+                    var children = SearchByTitle(item.Children, title);
+                    foreach (var child in children)
+                    {
+                        result.Add(child);
+                    }
+                }
+            }
+            return result;
+        }
+
+        private ObservableCollection<RecordTreeItem> ConvertToTree(IEnumerable<Record> source, bool ignoreParents)
+        {
+            var result = new ObservableCollection<RecordTreeItem>(source.Where(r => r.ParentId is null || ignoreParents)
                 .Select(r => new RecordTreeItem 
                 {
                     Record = r,

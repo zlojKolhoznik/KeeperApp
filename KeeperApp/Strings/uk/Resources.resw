@@ -198,6 +198,12 @@
   <data name="ExpiryDate" xml:space="preserve">
     <value>Термін дії</value>
   </data>
+  <data name="ExportAndImport" xml:space="preserve">
+    <value>Експорт та імпорт записів</value>
+  </data>
+  <data name="ExportDescription" xml:space="preserve">
+    <value>Експортуйте записи (окрім порожніх папок) у файл JSON, щоб мати змогу відновити їх на іншому ПК або обліковому записі</value>
+  </data>
   <data name="Folder" xml:space="preserve">
     <value>Папка</value>
   </data>
@@ -206,6 +212,9 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Головна</value>
+  </data>
+  <data name="ImportDescription" xml:space="preserve">
+    <value>Імпортуйте записи із файлу JSON, щоб відновити дані</value>
   </data>
   <data name="IncorrectPassword" xml:space="preserve">
     <value>Неправильний пароль</value>

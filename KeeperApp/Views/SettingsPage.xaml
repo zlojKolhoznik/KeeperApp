@@ -47,10 +47,10 @@
             <TextBlock FontSize="20" Text="Windows Hello" Margin="10"/>
             <TextBlock FontSize="14" Text="{Binding WindwsHelloDescription}" Margin="10"/>
             <Button Margin="10"  Content="{Binding EnableWindowsHelloLabel}" 
-                Visibility="{Binding IsWindowsHelloConnected, Converter={StaticResource ReversedBoolToVisibilityConverter}}" Background="{ThemeResource AccentAAFillColorDefaultBrush}"
+                Visibility="{Binding IsWindowsHelloConnected, Converter={StaticResource ReversedBoolToVisibilityConverter}}" Background="{ThemeResource AccentAcrylicBackgroundFillColorDefaultBrush}"
                 Command="{Binding EnableWindowsHelloCommand}"/>
             <Button Margin="10" Content="{Binding DisableWindowsHelloLabel}" 
-                Background="{ThemeResource AccentAAFillColorTertiaryBrush}" Visibility="{Binding IsWindowsHelloConnected, Converter={StaticResource BoolToVisibilityConverter}}"
+                Background="{ThemeResource AccentAcrylicBackgroundFillColorDefaultBrush}" Visibility="{Binding IsWindowsHelloConnected, Converter={StaticResource BoolToVisibilityConverter}}"
                 Command="{Binding DisableWindowsHelloCommand}"/>
             <TextBlock x:Name="WindowsHelloInfo" FontSize="12" Foreground="Red" Text="{Binding WindowsHelloUnaccessible}" Margin="10"
                    Visibility="{Binding IsWindowsHelloAvailable, Converter={StaticResource ReversedBoolToVisibilityConverter}}"/>
@@ -62,9 +62,14 @@
                 <PasswordBox Width="200" PlaceholderText="{Binding CurrentPasswordLabel}" Margin="0,5,15,10" Password="{Binding CurrentPassword, Mode=TwoWay}"/>
                 <PasswordBox Width="200" PlaceholderText="{Binding NewPasswordLabel}" Margin="10,5,15,10" Password="{Binding NewPassword, Mode=TwoWay}"/>
                 <PasswordBox Width="200" PlaceholderText="{Binding ConfirmNewPasswordLabel}" Margin="10,5,15,10" Password="{Binding ConfirmPassword, Mode=TwoWay}"/>
-                <Button Content="{Binding ChangeMasterPassword}" Margin="10,5,15,10" Width="200" Command="{Binding ChangePasswordCommand}"/>
+                <Button Content="{Binding ChangeMasterPassword}" Background="{ThemeResource AccentAcrylicBackgroundFillColorDefaultBrush}" Margin="10,5,15,10" Width="200" Command="{Binding ChangePasswordCommand}"/>
             </StackPanel>
             <TextBlock Foreground="Red" FontSize="12" Margin="10" Text="{Binding ChangePasswordError}"/>
+            <TextBlock FontSize="20" Margin="10" Text="{Binding ExportAndImportHeader}"/>
+            <TextBlock FontSize="14" Margin="10" Text="{Binding ExportDescription}"/>
+            <Button Content="Export records" Margin="10" Width="200" Command="{Binding ExportRecordsCommand}"/>
+            <TextBlock FontSize="14" Margin="10" Text="{Binding ImportDescription}"/>
+            <Button Content="Import records" Margin="10" Width="200" Command="{Binding ImportRecordsCommand}"/>
             <TextBlock FontSize="20" Margin="10"  Text="{Binding DeleteAccountLabel}"/>
             <TextBlock FontSize="14" Margin="10" Text="{Binding DeleteAccountWarning}"/>
             <Button Content="{Binding DeleteAccountLabel}" Margin="10" Width="200" Background="{ThemeResource AccentAcrylicBackgroundFillColorDefaultBrush}">

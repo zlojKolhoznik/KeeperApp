@@ -198,6 +198,12 @@
   <data name="ExpiryDate" xml:space="preserve">
     <value>Expiry date</value>
   </data>
+  <data name="ExportAndImport" xml:space="preserve">
+    <value>Export and import records</value>
+  </data>
+  <data name="ExportDescription" xml:space="preserve">
+    <value>Export records (except for empty folders) to JSON file to be able to transfer them to other PCs and accounts</value>
+  </data>
   <data name="Folder" xml:space="preserve">
     <value>Folder</value>
   </data>
@@ -206,6 +212,9 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="ImportDescription" xml:space="preserve">
+    <value>Import records from JSON file to restore your data</value>
   </data>
   <data name="IncorrectPassword" xml:space="preserve">
     <value>Incorrect password</value>

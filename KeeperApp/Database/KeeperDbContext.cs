@@ -26,10 +26,32 @@ namespace KeeperApp.Database
 
         public IEnumerable<Record> GetRecordsForUser(string username)
         {
-            List<Record> records = [.. Logins.Cast<Record>(),
-                .. Folders.Cast<Record>(),
-                .. CardCredentials.Cast<Record>()];
-            return records.Where(r => r.OwnerUsernameHash == Sha256Hasher.GetSaltedHash(username, r.Created.ToString()));
+            int count = Logins.Count() + CardCredentials.Count() + Folders.Count();
+            List<Record> records = [..GetRecordsFromCollectionForUser(Logins, username),
+                ..GetRecordsFromCollectionForUser(CardCredentials, username),
+                ..GetRecordsFromCollectionForUser(Folders, username)];
+            return records;
+        }
+
+        private IEnumerable<TRecord> GetRecordsFromCollectionForUser<TRecord>(DbSet<TRecord> collection, string username) where TRecord : Record
+        {
+            List<TRecord> result = new();
+            for (int i = 0; i < collection.Count(); i++)
+            {
+                try
+                {
+                    var record = collection.ElementAt(i);
+                    if (record.OwnerUsernameHash == Sha256Hasher.GetSaltedHash(username, record.Created.ToString()))
+                    {
+                        result.Add(record);
+                    }
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+            return result;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

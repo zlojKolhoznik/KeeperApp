@@ -11,7 +11,7 @@ namespace KeeperApp.Services
     public class EmailSender : IEmailSender
     {
         /// <summary>
-        /// On the server side, the email server settings and credentials should be stored in a secure way, such as app secrets and so, there would be no need for this constructor.
+        /// On the server side, the email server settings and credentials should be stored in a secure way, such as app secrets, and so, there would be no need for this constructor.
         /// </summary>
         public EmailSender()
         {

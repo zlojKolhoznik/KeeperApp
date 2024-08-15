@@ -2,15 +2,13 @@
 using KeeperApp.Records.ViewAttributes;
 using KeeperApp.Security;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace KeeperApp.Records;
 
+[JsonDerivedType(typeof(Folder), typeDiscriminator:"folder")]
+[JsonDerivedType(typeof(LoginRecord), typeDiscriminator:"login")]
+[JsonDerivedType(typeof(CardCredentialsRecord), typeDiscriminator:"card")]
 public abstract class Record : ObservableObject
 {
     private string title;

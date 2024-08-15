@@ -1,15 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KeeperApp.Database;
+using KeeperApp.Records;
 using KeeperApp.Security;
 using KeeperApp.Security.Authentication;
 using KeeperApp.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 
 namespace KeeperApp.ViewModels
 {
@@ -17,6 +18,7 @@ namespace KeeperApp.ViewModels
     {
         private readonly SignInManager signInManager;
         private readonly KeeperDbContext dbContext;
+        private readonly RecordsSerializationService serializationService;
         private readonly ResourceLoader resourceLoader;
         private bool isWindowsHelloAvailable;
         private string currentPassword;
@@ -30,10 +32,11 @@ namespace KeeperApp.ViewModels
         private string emailConfirmationError;
         private bool isEmailConfirmationActive;
 
-        public SettingsViewModel(SignInManager signInManager, KeeperDbContext dbContext, IEmailSender sender)
+        public SettingsViewModel(SignInManager signInManager, KeeperDbContext dbContext, IEmailSender sender, RecordsSerializationService serializationService)
         {
             this.signInManager = signInManager;
             this.dbContext = dbContext;
+            this.serializationService = serializationService;
             resourceLoader = new ResourceLoader();
             var userInfo = dbContext.Users.Find(Sha256Hasher.GetHash(signInManager.CurrentUserName));
             Email = userInfo?.Email;
@@ -60,6 +63,9 @@ namespace KeeperApp.ViewModels
         public string Confirm => resourceLoader.GetString("Confirm");
         public string ConfirmationCodePlaceholder => resourceLoader.GetString("ConfirmationCode");
         public string EmailConfirmationDescription => resourceLoader.GetString("EmailConfirmationDescription");
+        public string ExportAndImportHeader => resourceLoader.GetString("ExportAndImport");
+        public string ExportDescription => resourceLoader.GetString("ExportDescription");
+        public string ImportDescription => resourceLoader.GetString("ImportDescription");
 
         public bool IsWindowsHelloConnected
         {
@@ -135,6 +141,60 @@ namespace KeeperApp.ViewModels
         public AsyncRelayCommand DisableWindowsHelloCommand => new(DisableWindowsHello);
         public AsyncRelayCommand SaveEmailCommand => new(SaveEmail);
         public AsyncRelayCommand ConfirmEmailCommand => new(ConfirmEmail);
+        public AsyncRelayCommand ExportRecordsCommand => new(ExportRecords);
+        public AsyncRelayCommand ImportRecordsCommand => new(ImportRecords);
+
+        private async Task ExportRecords()
+        {
+            var picker = new FileSavePicker
+            {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+                SuggestedFileName = "records",
+                DefaultFileExtension = ".json"
+            };
+            InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(App.Current.MainWindow));
+            picker.FileTypeChoices.Add("JSON", [".json"]);
+            var file = await picker.PickSaveFileAsync();
+            if (file is not null)
+            {
+                var records = dbContext.GetRecordsForUser(signInManager.CurrentUserName).Where(r => r.GetType() != typeof(Folder));
+                await serializationService.SerializeRecordsAsync(records, file);
+            }
+        }
+
+        private async Task ImportRecords()
+        {
+            var picker = new FileOpenPicker
+            {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+            };
+            InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(App.Current.MainWindow));
+            picker.FileTypeFilter.Add(".json");
+            var file = await picker.PickSingleFileAsync();
+            if (file is not null)
+            {
+                var records = await serializationService.DeserializeRecordsAsync(file);
+                foreach (var record in records)
+                {
+                    AddRecord(record);
+                }
+            }
+            await dbContext.SaveChangesAsync();
+        }
+
+        private void AddRecord(Record record)
+        {
+            record.Created = DateTime.Now;
+            record.Modified = DateTime.Now;
+            record.Id = 0;
+            record.OwnerUsernameHash = Sha256Hasher.GetSaltedHash(signInManager.CurrentUserName, record.Created.ToString());
+            if (record.Parent is not null)
+            {
+                AddRecord(record.Parent);
+                record.ParentId = null;
+            }
+            dbContext.Add(record);
+        }
 
         private async Task ConfirmEmail()
         {

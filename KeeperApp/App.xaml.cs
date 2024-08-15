@@ -38,6 +38,7 @@ namespace KeeperApp
         }
 
         public XamlRoot MainXamlRoot => m_window.Content.XamlRoot;
+        public Window MainWindow => m_window;
 
         public string Language
         {
@@ -85,6 +86,7 @@ namespace KeeperApp
             services.AddTransient<CardCredentialsInfoViewModel>();
             services.AddTransient<SignInViewModel>();
             services.AddTransient<PasswordAnalysisViewModel>();
+            services.AddTransient<RecordsSerializationService>();
             services.AddTransient<IUserInteractionService, ContentDialogService>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient(service => new PasswordValidatorService(new PasswordRequirements()));

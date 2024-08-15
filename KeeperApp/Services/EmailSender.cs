@@ -22,10 +22,10 @@ namespace KeeperApp.Services
             var smtpPort = localSettings.Values["SmtpPort"];
             if (login is null || password is null || smtpHost is null || smtpPort is null)
             {
-                localSettings.Values["EmailLogin"] = "rportyanko10@gmail.com";
-                localSettings.Values["EmailPassword"] = "escwrevulfsjrewh";
-                localSettings.Values["SmtpHost"] = "smtp.gmail.com";
-                localSettings.Values["SmtpPort"] = 465;
+                localSettings.Values["EmailLogin"] = "***APP EMAIL***";
+                localSettings.Values["EmailPassword"] = "***APP PASSWORD***";
+                localSettings.Values["SmtpHost"] = "***SMTP HOST NAME***";
+                localSettings.Values["SmtpPort"] = 0; // SMPT port (0 used as example)
             }
         }
 

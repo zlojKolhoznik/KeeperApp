@@ -126,6 +126,12 @@
   <data name="AddToFolderConfirmation" xml:space="preserve">
     <value>Цей запис вже знаходиться у папці '{0}'. Ви точно хочете перемістити його у папку '{1}'?</value>
   </data>
+  <data name="AlphabeticalDescendingOrder" xml:space="preserve">
+    <value>Я-А</value>
+  </data>
+  <data name="AlphabeticalOrder" xml:space="preserve">
+    <value>А-Я</value>
+  </data>
   <data name="AnalyzePasswordsLabel" xml:space="preserve">
     <value>Проаналізувати паролі</value>
   </data>
@@ -158,6 +164,12 @@
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Підтвердіть пароль</value>
+  </data>
+  <data name="CreatedDescendingOrder" xml:space="preserve">
+    <value>Спочатку нові</value>
+  </data>
+  <data name="CreatedOrder" xml:space="preserve">
+    <value>Спочатку старі</value>
   </data>
   <data name="CurrentPassword" xml:space="preserve">
     <value>Поточний пароль</value>
@@ -239,6 +251,12 @@
   </data>
   <data name="LoginRecord" xml:space="preserve">
     <value>Логін</value>
+  </data>
+  <data name="ModifiedDescendingOrder" xml:space="preserve">
+    <value>Останні змінені</value>
+  </data>
+  <data name="ModifiedOrder" xml:space="preserve">
+    <value>Перші змінені</value>
   </data>
   <data name="NewPassword" xml:space="preserve">
     <value>Новий пароль</value>

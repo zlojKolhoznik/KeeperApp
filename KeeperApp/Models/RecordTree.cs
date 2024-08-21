@@ -25,6 +25,26 @@ namespace KeeperApp.Models
             set => SetProperty(ref rootItems, value);
         }
 
+        public IEnumerable<Record> GetAllRecords()
+        {
+            return GetAllRecords(RootItems).Distinct();
+        }
+
+        private IEnumerable<Record> GetAllRecords(ObservableCollection<RecordTreeItem> source)
+        {
+            foreach (var item in source)
+            {
+                yield return item.Record;
+                if (item.Children is not null)
+                {
+                    foreach (var child in GetAllRecords(item.Children))
+                    {
+                        yield return child;
+                    }
+                }
+            }
+        }
+
         public ObservableCollection<Record> SearchByTitle(string title)
         {
             return new ObservableCollection<Record>(SearchByTitle(RootItems, title).Select(i => i.Record));

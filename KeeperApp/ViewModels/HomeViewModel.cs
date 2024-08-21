@@ -6,6 +6,7 @@ using KeeperApp.Messaging;
 using KeeperApp.Models;
 using KeeperApp.Records;
 using KeeperApp.Security.Authentication;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.ApplicationModel.Resources;
 
@@ -17,6 +18,8 @@ namespace KeeperApp.ViewModels
         private readonly SignInManager signInManager;
         private readonly ResourceLoader resourceLoader;
         private RecordTree records;
+        private bool ignoreParents;
+        private int selectedSortOptionIndex;
 
         public HomeViewModel(KeeperDbContext dbContext, SignInManager signInManager)
         {
@@ -33,8 +36,34 @@ namespace KeeperApp.ViewModels
             WeakReferenceMessenger.Default.Register<HomeViewModel, RecordMessage>(this, (r, m) => r.Receive(m));
         }
 
+        public List<SortingOption> SortingOptions => [
+            new SortingOption(nameof(Record.Title), false, resourceLoader.GetString("AlphabeticalOrder")),
+            new SortingOption(nameof(Record.Title), true, resourceLoader.GetString("AlphabeticalDescendingOrder")),
+            new SortingOption(nameof(Record.Created), false, resourceLoader.GetString("CreatedOrder")),
+            new SortingOption(nameof(Record.Created), true, resourceLoader.GetString("CreatedDescendingOrder")),
+            new SortingOption(nameof(Record.Modified), false, resourceLoader.GetString("ModifiedOrder")),
+            new SortingOption(nameof(Record.Modified), true, resourceLoader.GetString("ModifiedDescendingOrder"))
+        ];
+
+        public int SelectedSortOptionIndex 
+        {
+            get => selectedSortOptionIndex; 
+            set => SetProperty(ref selectedSortOptionIndex, value); 
+        }
+
         public RelayCommand<Record> DeleteRecordCommand => new(DeleteRecord);
         public RelayCommand<string> SearchCommand => new(Search);
+        public RelayCommand<int> SortCommand => new(Sort);
+
+        private void Sort(int obj)
+        {
+            var selectedOption = SortingOptions[obj];
+            var prop = typeof(Record).GetProperty(selectedOption.PropertyName);
+            IEnumerable<Record> recrods = selectedOption.IsDescending 
+                ? Records.GetAllRecords().OrderByDescending(prop.GetValue) 
+                : Records.GetAllRecords().OrderBy(prop.GetValue);
+            Records = new RecordTree(recrods, ignoreParents);
+        }
 
         public string Title => resourceLoader.GetString("KeeperVault");
         public string AddRecordButtonLabel => resourceLoader.GetString("AddRecord");
@@ -76,7 +105,9 @@ namespace KeeperApp.ViewModels
 
         public void Search(string query)
         {
+            ignoreParents = !string.IsNullOrEmpty(query);
             Records = string.IsNullOrWhiteSpace(query) ? new RecordTree(dbContext.GetRecordsForUser(signInManager.CurrentUserName)) : new RecordTree(Records.SearchByTitle(query), true);
+            Sort(SelectedSortOptionIndex);
         }
     }
 }

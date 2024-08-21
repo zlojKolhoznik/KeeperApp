@@ -31,14 +31,26 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Horizontal" Padding="10">
-            <AutoSuggestBox PlaceholderText="Search" QueryIcon="Find" Width="800" x:Name="SearchBox">
+        <StackPanel Orientation="Horizontal">
+            <AutoSuggestBox PlaceholderText="Search" QueryIcon="Find" Width="800" x:Name="SearchBox" Margin="10">
                 <interaction:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="QuerySubmitted">
                         <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchCommand, Mode=OneWay}" CommandParameter="{x:Bind SearchBox.Text, Mode=OneWay}"/>
                     </core:EventTriggerBehavior>
                 </interaction:Interaction.Behaviors>
             </AutoSuggestBox>
+            <ComboBox ItemsSource="{x:Bind ViewModel.SortingOptions, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.SelectedSortOptionIndex, Mode=TwoWay}" Margin="10">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DisplayName}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <interaction:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="SelectionChanged">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.SortCommand, Mode=OneWay}" CommandParameter="{x:Bind ViewModel.SelectedSortOptionIndex, Mode=OneWay}"/>
+                    </core:EventTriggerBehavior>
+                </interaction:Interaction.Behaviors>
+            </ComboBox>
         </StackPanel>
         <StackPanel Padding="10" Width="auto" Grid.ColumnSpan="2" Grid.Row="1"
                     Orientation="Horizontal" VerticalAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}">

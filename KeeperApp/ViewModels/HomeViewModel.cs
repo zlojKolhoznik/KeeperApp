@@ -106,7 +106,8 @@ namespace KeeperApp.ViewModels
         public void Search(string query)
         {
             ignoreParents = !string.IsNullOrEmpty(query);
-            Records = string.IsNullOrWhiteSpace(query) ? new RecordTree(dbContext.GetRecordsForUser(signInManager.CurrentUserName)) : new RecordTree(Records.SearchByTitle(query), true);
+            var newTree = new RecordTree(dbContext.GetRecordsForUser(signInManager.CurrentUserName));
+            Records = string.IsNullOrWhiteSpace(query) ? newTree : new RecordTree(newTree.SearchByTitle(query), true);
             Sort(SelectedSortOptionIndex);
         }
     }
